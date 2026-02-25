@@ -1,0 +1,8 @@
+{
+	"name": "template-web",
+	"compatibility_date": "2026-02-13",
+	"assets": {
+		"directory": "./build/",
+		"not_found_handling": "single-page-application"
+	}
+}

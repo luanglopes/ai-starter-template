@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Starter — Design System v2.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Geist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1115;
+    --bg-subtle: #141519;
+    --surface: #1a1b21;
+    --surface-raised: #212229;
+    --surface-hover: #2a2b33;
+    --primary: #e8a848;
+    --primary-soft: rgba(232, 168, 72, 0.1);
+    --primary-mid: rgba(232, 168, 72, 0.18);
+    --primary-deep: #d4952e;
+    --secondary: #38bec9;
+    --secondary-soft: rgba(56, 190, 201, 0.1);
+    --secondary-mid: rgba(56, 190, 201, 0.18);
+    --accent-blue: rgba(100, 140, 220, 0.12);
+    --accent-blue-solid: #648cdc;
+    --accent-violet: rgba(140, 120, 210, 0.1);
+    --accent-violet-solid: #8c78d2;
+    --warning: #e8a848;
+    --warning-soft: rgba(232, 168, 72, 0.1);
+    --danger: #e05252;
+    --danger-soft: rgba(224, 82, 82, 0.1);
+    --success: #34c88a;
+    --success-soft: rgba(52, 200, 138, 0.1);
+    --info: #648cdc;
+    --info-soft: rgba(100, 140, 220, 0.1);
+    --white: #ecedf0;
+    --text: #d8dae0;
+    --text-mid: #888c9e;
+    --text-light: #555868;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.14);
+    --border-focus: rgba(232, 168, 72, 0.45);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.24), 0 1px 3px rgba(0,0,0,0.18);
+    --shadow-md: 0 4px 14px rgba(0,0,0,0.28), 0 1px 4px rgba(0,0,0,0.18);
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.32), 0 4px 10px rgba(0,0,0,0.2);
+    --shadow-xl: 0 20px 56px rgba(0,0,0,0.4), 0 6px 16px rgba(0,0,0,0.22);
+    --radius-xs: 6px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 14px;
+    --radius-xl: 18px;
+    --radius-pill: 100px;
+    --display: 'Space Grotesk', 'Inter', sans-serif;
+    --body: 'Geist', -apple-system, 'Segoe UI', sans-serif;
+    --mono: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--body); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  .ds-wrapper { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+  .ds-sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; background: var(--surface); border-right: 1px solid var(--border); padding: 32px 0; }
+  .ds-sidebar-logo { font-family: var(--display); font-size: 18px; font-weight: 700; color: var(--white); padding: 0 24px 8px; display: flex; align-items: center; gap: 10px; }
+  .ds-sidebar-logo .logo-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ds-sidebar-subtitle { font-size: 11px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 1.5px; padding: 0 24px 24px; }
+  .ds-nav-group { margin-bottom: 8px; }
+  .ds-nav-label { font-size: 10px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 1.5px; padding: 16px 24px 8px; }
+  .ds-nav-link { display: block; font-size: 13px; font-weight: 500; color: var(--text-mid); text-decoration: none; padding: 7px 24px; border-left: 2px solid transparent; transition: all 0.15s; }
+  .ds-nav-link:hover { color: var(--white); background: rgba(255,255,255,0.03); border-left-color: rgba(232,168,72,0.3); }
+  .ds-nav-link.active { color: var(--primary); border-left-color: var(--primary); background: var(--primary-soft); }
+  .ds-main { padding: 48px 64px 120px; max-width: 980px; }
+  .ds-section { margin-bottom: 80px; }
+  .ds-section-title { font-family: var(--display); font-size: 32px; font-weight: 700; color: var(--white); margin-bottom: 8px; letter-spacing: -0.5px; }
+  .ds-section-desc { font-size: 15px; color: var(--text-mid); margin-bottom: 40px; max-width: 600px; line-height: 1.7; }
+  .ds-subsection { margin-bottom: 48px; }
+  .ds-subsection-title { font-family: var(--display); font-size: 20px; font-weight: 600; color: var(--white); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .ds-subsection-title::before { content: ''; width: 4px; height: 20px; background: var(--primary); border-radius: 2px; }
+  .ds-note { font-size: 13px; color: var(--text-light); margin-top: 8px; line-height: 1.6; }
+  .ds-divider { border: none; height: 1px; background: var(--border); margin: 64px 0; }
+  .component-stage { background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px; margin-bottom: 16px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .component-stage.col { flex-direction: column; align-items: flex-start; }
+  .component-stage.center { justify-content: center; }
+  .component-stage.dark { background: var(--bg); }
+  .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px 24px; font-size: 13px; font-family: var(--mono); color: var(--text-mid); line-height: 1.7; overflow-x: auto; margin-bottom: 16px; white-space: pre; }
+  .code-block .hl-prop { color: var(--secondary); }
+  .code-block .hl-val { color: var(--primary); }
+  .code-block .hl-comment { color: var(--text-light); }
+  .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 12px; margin-bottom: 32px; }
+  .swatch { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border); background: var(--surface); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+  .swatch:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .swatch-color { height: 64px; position: relative; }
+  .swatch-info { padding: 10px 14px; }
+  .swatch-name { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+  .swatch-value { font-size: 11px; font-family: var(--mono); color: var(--text-light); }
+  .swatch-copied { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); color: var(--secondary); font-size: 12px; font-weight: 700; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+  .swatch-copied.show { opacity: 1; }
+  .type-specimen { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 16px; }
+  .type-meta { display: flex; gap: 24px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .type-meta-item { font-size: 12px; color: var(--text-light); }
+  .type-meta-item strong { color: var(--text-mid); font-weight: 600; }
+  .type-scale { display: flex; flex-direction: column; gap: 4px; }
+  .type-scale-row { display: grid; grid-template-columns: 100px 80px 1fr; align-items: baseline; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .type-scale-label { font-size: 11px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
+  .type-scale-size { font-size: 12px; font-family: var(--mono); color: var(--text-mid); }
+  .shadow-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 16px; }
+  .shadow-box { background: var(--surface); border-radius: var(--radius-lg); height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid var(--border); transition: transform 0.2s; }
+  .shadow-box:hover { transform: translateY(-2px); }
+  .shadow-box-label { font-size: 12px; font-weight: 600; color: var(--text-mid); margin-top: 8px; }
+  .shadow-box-value { font-size: 10px; color: var(--text-light); font-family: var(--mono); }
+  .spacing-row { display: flex; align-items: center; gap: 20px; margin-bottom: 12px; }
+  .spacing-label { font-size: 12px; font-weight: 600; color: var(--text-mid); width: 80px; flex-shrink: 0; }
+  .spacing-bar { height: 12px; background: var(--primary-soft); border: 1px solid rgba(232,168,72,0.2); border-radius: 4px; }
+  .spacing-val { font-size: 11px; font-family: var(--mono); color: var(--text-light); width: 40px; flex-shrink: 0; }
+  .radius-item { text-align: center; }
+  .radius-shape { width: 72px; height: 72px; background: var(--primary-soft); border: 2px solid var(--primary); margin-bottom: 8px; }
+  .radius-label { font-size: 11px; font-weight: 700; color: var(--text-mid); }
+  .radius-value { font-size: 10px; color: var(--text-light); font-family: var(--mono); }
+  .anim-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .anim-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px 24px; text-align: center; cursor: pointer; }
+  .anim-card:hover .anim-target-slideUp { animation: slideUp 0.6s var(--ease-smooth); }
+  .anim-card:hover .anim-target-popIn { animation: popIn 0.5s var(--ease-spring); }
+  .anim-card:hover .anim-target-floatIn { animation: floatIn 0.8s var(--ease-smooth); }
+  .anim-target { width: 48px; height: 48px; border-radius: var(--radius-sm); margin: 0 auto 16px; }
+  .anim-name { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+  .anim-desc { font-size: 12px; color: var(--text-light); }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.95) translateY(6px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+  @keyframes floatIn { from { opacity: 0; transform: translateY(28px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+  .btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--body); font-weight: 500; font-size: 15px; padding: 16px 32px; border-radius: var(--radius-pill); text-decoration: none; border: none; cursor: pointer; transition: all 0.25s var(--ease-spring); }
+  .btn-sm { font-size: 13px; padding: 10px 22px; }
+  .btn-lg { font-size: 16px; padding: 18px 40px; }
+  .btn-primary { background: var(--primary); color: white; box-shadow: var(--shadow-sm); }
+  .btn-primary:hover { background: var(--primary-deep); transform: translateY(-2px) scale(1.02); box-shadow: var(--shadow-md); }
+  .btn-secondary { background: var(--surface-raised); color: var(--white); border: 1px solid var(--border-hover); box-shadow: var(--shadow-sm); }
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.2); background: var(--surface-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .btn-ghost { background: transparent; color: var(--text-mid); padding: 10px 20px; font-weight: 600; font-size: 14px; }
+  .btn-ghost:hover { color: var(--white); }
+  .btn-danger { background: var(--danger-soft); color: var(--danger); border: 1px solid rgba(224,82,82,0.2); font-family: var(--body); font-weight: 500; border-radius: var(--radius-pill); cursor: pointer; transition: all 0.2s; }
+  .btn-danger:hover { background: rgba(224,82,82,0.18); transform: translateY(-1px); }
+  .btn-icon { width: 40px; height: 40px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: var(--radius-sm); background: var(--surface-raised); border: 1px solid var(--border); color: var(--text-mid); cursor: pointer; transition: all 0.2s; }
+  .btn-icon:hover { background: var(--surface-hover); color: var(--white); border-color: var(--border-hover); }
+  .btn-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 6px 6px 16px; border-radius: var(--radius-pill); font-size: 13px; font-weight: 600; }
+  .pill-primary { background: var(--primary-soft); color: var(--primary); border: 1px solid rgba(232,168,72,0.15); }
+  .pill-secondary { background: var(--secondary-soft); color: var(--secondary); border: 1px solid rgba(56,190,201,0.12); }
+  .pill-tag { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: var(--radius-pill); text-transform: uppercase; letter-spacing: 0.5px; }
+  .pill-tag-primary { background: var(--primary); color: white; }
+  .pill-tag-secondary { background: var(--secondary); color: #0f1115; }
+  .badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 10px; border-radius: var(--radius-pill); white-space: nowrap; display: inline-block; }
+  .badge-new { background: var(--secondary-soft); color: var(--secondary); border: 1px solid rgba(56,190,201,0.15); }
+  .badge-fix { background: var(--primary-soft); color: var(--primary); border: 1px solid rgba(232,168,72,0.15); }
+  .badge-improved { background: var(--accent-violet); color: var(--accent-violet-solid); border: 1px solid rgba(140,120,210,0.15); }
+  .badge-draft { background: rgba(232,168,72,0.1); color: var(--warning); border: 1px solid rgba(232,168,72,0.15); }
+
+  .chip { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: var(--radius-pill); background: rgba(255,255,255,0.06); color: var(--text-mid); border: 1px solid var(--border); }
+  .chip-secondary { background: var(--secondary-soft); color: var(--secondary); border-color: rgba(56,190,201,0.15); }
+  .chip-primary { background: var(--primary-soft); color: var(--primary); border-color: rgba(232,168,72,0.15); }
+  .mini-tag { font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: var(--radius-pill); background: rgba(255,255,255,0.04); color: var(--text-light); border: 1px solid var(--border); transition: all 0.2s; cursor: pointer; display: inline-block; }
+  .mini-tag:hover { background: rgba(255,255,255,0.08); color: var(--text-mid); }
+  .mini-tag.active { background: var(--primary-soft); color: var(--primary); border-color: rgba(232,168,72,0.2); }
+
+  .card { background: var(--surface); border-radius: var(--radius-lg); padding: 36px 30px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); transition: all 0.3s var(--ease-spring); position: relative; overflow: hidden; }
+  .card::before { content: ''; position: absolute; inset: 0; border-radius: var(--radius-lg); background: linear-gradient(135deg, rgba(232,168,72,0.03) 0%, rgba(56,190,201,0.02) 100%); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+  .card:hover::before { opacity: 1; }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--border-hover); }
+  .card-featured { border-color: rgba(232,168,72,0.35); box-shadow: var(--shadow-lg); }
+
+  .icon-box { width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center; }
+  .icon-box svg { width: 24px; height: 24px; }
+  .icon-box-primary { background: var(--primary-soft); border: 1px solid rgba(232,168,72,0.12); }
+  .icon-box-primary svg { stroke: var(--primary); }
+  .icon-box-secondary { background: var(--secondary-soft); border: 1px solid rgba(56,190,201,0.12); }
+  .icon-box-secondary svg { stroke: var(--secondary); }
+  .icon-box-violet { background: var(--accent-violet); border: 1px solid rgba(140,120,210,0.12); }
+  .icon-box-violet svg { stroke: var(--accent-violet-solid); }
+  .icon-box-blue { background: var(--accent-blue); border: 1px solid rgba(100,140,220,0.1); }
+  .icon-box-blue svg { stroke: var(--accent-blue-solid); }
+
+  .input-group { margin-bottom: 20px; width: 100%; }
+  .input-group:last-child { margin-bottom: 0; }
+  .input-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-mid); margin-bottom: 8px; }
+  .input-hint { font-size: 12px; color: var(--text-light); margin-top: 6px; }
+  .input-hint.error { color: var(--danger); }
+  .input { width: 100%; padding: 12px 16px; font-family: var(--body); font-size: 14px; font-weight: 500; color: var(--white); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+  .input::placeholder { color: var(--text-light); }
+  .input:hover { border-color: var(--border-hover); }
+  .input:focus { border-color: var(--border-focus); box-shadow: 0 0 0 3px rgba(255,255,255,0.06); }
+  .input.error { border-color: rgba(224,82,82,0.4); box-shadow: 0 0 0 3px rgba(255,255,255,0.04); }
+  .input-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+  .select-wrapper { position: relative; }
+  .select-wrapper::after { content: ''; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid var(--text-light); pointer-events: none; }
+  .select { appearance: none; width: 100%; padding: 12px 40px 12px 16px; font-family: var(--body); font-size: 14px; font-weight: 500; color: var(--white); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); outline: none; cursor: pointer; transition: border-color 0.2s; }
+  .select:hover { border-color: var(--border-hover); }
+  .select:focus { border-color: var(--border-focus); box-shadow: 0 0 0 3px rgba(255,255,255,0.06); }
+
+  .toggle { width: 44px; height: 24px; background: var(--surface-hover); border-radius: 12px; position: relative; cursor: pointer; transition: background 0.2s; border: 1px solid var(--border); flex-shrink: 0; }
+  .toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--text-mid); transition: all 0.2s var(--ease-spring); }
+  .toggle.on { background: var(--primary); border-color: var(--primary); }
+  .toggle.on::after { left: 23px; background: white; }
+
+  .tab-bar { display: flex; gap: 2px; background: var(--bg); border-radius: var(--radius-sm); padding: 4px; border: 1px solid var(--border); width: fit-content; }
+  .tab-item { font-size: 13px; font-weight: 600; color: var(--text-light); padding: 8px 20px; border-radius: 6px; cursor: pointer; transition: all 0.2s; border: none; background: transparent; font-family: var(--body); }
+  .tab-item:hover { color: var(--text-mid); }
+  .tab-item.active { background: var(--surface-raised); color: var(--white); box-shadow: var(--shadow-sm); }
+
+  .table-wrapper { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  .table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .table th { text-align: left; padding: 14px 20px; font-size: 11px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; background: var(--bg); border-bottom: 1px solid var(--border); }
+  .table td { padding: 14px 20px; color: var(--text-mid); border-bottom: 1px solid var(--border); }
+  .table tr:last-child td { border-bottom: none; }
+  .table tr:hover td { background: rgba(255,255,255,0.02); }
+  .table td.title-cell { color: var(--white); font-weight: 600; }
+
+  .modal-preview { background: rgba(0,0,0,0.5); border-radius: var(--radius-lg); padding: 48px; display: flex; align-items: center; justify-content: center; min-height: 300px; }
+  .modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 36px; box-shadow: var(--shadow-xl); max-width: 420px; width: 100%; }
+  .modal-title { font-family: var(--display); font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .modal-desc { font-size: 14px; color: var(--text-mid); margin-bottom: 28px; line-height: 1.7; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+  .toast { display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-radius: var(--radius-md); font-size: 14px; font-weight: 500; background: var(--surface-raised); border: 1px solid var(--border); box-shadow: var(--shadow-lg); max-width: 400px; }
+  .toast-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .toast-icon svg { width: 16px; height: 16px; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .toast-success .toast-icon { background: var(--success-soft); }
+  .toast-success .toast-icon svg { stroke: var(--success); }
+  .toast-error .toast-icon { background: var(--danger-soft); }
+  .toast-error .toast-icon svg { stroke: var(--danger); }
+  .toast-warning .toast-icon { background: var(--warning-soft); }
+  .toast-warning .toast-icon svg { stroke: var(--warning); }
+  .toast-info .toast-icon { background: var(--info-soft); }
+  .toast-info .toast-icon svg { stroke: var(--info); }
+  .toast-text { color: var(--text); flex: 1; }
+  .toast-text small { display: block; color: var(--text-light); font-size: 12px; margin-top: 2px; }
+  .toast-close { width: 24px; height: 24px; border: none; background: none; color: var(--text-light); cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 6px; transition: all 0.15s; flex-shrink: 0; }
+  .toast-close:hover { background: rgba(255,255,255,0.06); color: var(--text-mid); }
+  .toast-close svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  .progress-track { height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
+  .progress-fill { height: 100%; border-radius: 4px; transition: width 0.5s var(--ease-smooth); }
+  .progress-fill.primary { background: var(--primary); }
+  .progress-fill.secondary { background: var(--secondary); }
+  .progress-fill.warning { background: var(--warning); }
+  .progress-fill.danger { background: var(--danger); }
+  .usage-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; }
+  .usage-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .usage-label { font-size: 13px; font-weight: 600; color: var(--text-mid); }
+  .usage-count { font-size: 13px; font-weight: 700; color: var(--white); }
+  .usage-count span { color: var(--text-light); font-weight: 500; }
+
+  .empty-state { text-align: center; padding: 60px 40px; }
+  .empty-icon { width: 64px; height: 64px; border-radius: 20px; background: var(--surface-raised); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+  .empty-icon svg { width: 28px; height: 28px; stroke: var(--text-light); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .empty-title { font-family: var(--display); font-size: 18px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+  .empty-desc { font-size: 14px; color: var(--text-light); max-width: 320px; margin: 0 auto 24px; }
+
+  .alert { display: flex; align-items: flex-start; gap: 12px; padding: 16px 20px; border-radius: var(--radius-md); font-size: 14px; border: 1px solid; }
+  .alert-icon { flex-shrink: 0; margin-top: 1px; }
+  .alert-icon svg { width: 18px; height: 18px; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .alert-content { flex: 1; }
+  .alert-title { font-weight: 600; margin-bottom: 2px; }
+  .alert-desc { font-size: 13px; opacity: 0.8; }
+  .alert-info { background: var(--info-soft); border-color: rgba(100,140,220,0.15); color: var(--info); }
+  .alert-info .alert-icon svg { stroke: var(--info); }
+  .alert-warning { background: var(--warning-soft); border-color: rgba(232,168,72,0.15); color: var(--warning); }
+  .alert-warning .alert-icon svg { stroke: var(--warning); }
+  .alert-danger { background: var(--danger-soft); border-color: rgba(224,82,82,0.15); color: var(--danger); }
+  .alert-danger .alert-icon svg { stroke: var(--danger); }
+  .alert-success { background: var(--success-soft); border-color: rgba(52,200,138,0.15); color: var(--success); }
+  .alert-success .alert-icon svg { stroke: var(--success); }
+
+  .skeleton { background: linear-gradient(90deg, var(--surface-raised) 25%, var(--surface-hover) 50%, var(--surface-raised) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
+  .skeleton-text { height: 14px; margin-bottom: 10px; }
+  .skeleton-text:last-child { width: 60%; }
+  .skeleton-heading { height: 24px; width: 50%; margin-bottom: 16px; }
+  .skeleton-avatar { width: 40px; height: 40px; border-radius: 50%; }
+  .skeleton-block { height: 120px; }
+
+  .dropdown-menu { background: var(--surface-raised); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 6px; box-shadow: var(--shadow-lg); min-width: 200px; }
+  .dropdown-item { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; color: var(--text-mid); padding: 10px 14px; border-radius: 10px; cursor: pointer; transition: all 0.15s; border: none; background: none; width: 100%; font-family: var(--body); text-align: left; }
+  .dropdown-item:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+  .dropdown-item svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  .dropdown-item.danger { color: var(--danger); }
+  .dropdown-item.danger:hover { background: var(--danger-soft); }
+  .dropdown-divider { height: 1px; background: var(--border); margin: 4px 8px; }
+
+  .breadcrumbs { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .breadcrumb-item { color: var(--text-light); text-decoration: none; font-weight: 500; transition: color 0.15s; }
+  .breadcrumb-item:hover { color: var(--text-mid); }
+  .breadcrumb-item.current { color: var(--white); font-weight: 600; }
+  .breadcrumb-sep { color: var(--text-light); font-size: 11px; }
+
+  .tooltip-demo { position: relative; display: inline-block; }
+  .tooltip-bubble { background: var(--surface-hover); border: 1px solid var(--border); border-radius: 10px; padding: 8px 14px; font-size: 12px; font-weight: 500; color: var(--text); box-shadow: var(--shadow-md); white-space: nowrap; position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); }
+  .tooltip-bubble::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--surface-hover); }
+
+  .avatar { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 600; color: white; flex-shrink: 0; }
+  .avatar-sm { width: 28px; height: 28px; font-size: 11px; }
+  .avatar-md { width: 36px; height: 36px; font-size: 14px; }
+  .avatar-lg { width: 48px; height: 48px; font-size: 18px; }
+
+  .app-sidebar-demo { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 0; width: 240px; }
+  .app-sidebar-item { display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 14px; font-weight: 500; color: var(--text-mid); text-decoration: none; transition: all 0.15s; border-left: 3px solid transparent; }
+  .app-sidebar-item:hover { color: var(--white); background: rgba(255,255,255,0.03); }
+  .app-sidebar-item.active { color: var(--white); background: var(--primary-soft); border-left-color: var(--primary); }
+  .app-sidebar-item svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+  .date-range { display: flex; align-items: center; gap: 12px; }
+  .date-input { padding: 10px 14px; font-family: var(--body); font-size: 13px; font-weight: 500; color: var(--white); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); outline: none; transition: border-color 0.2s; }
+  .date-input:focus { border-color: var(--border-focus); }
+  .date-sep { color: var(--text-light); font-size: 13px; }
+
+  .user-menu { position: relative; margin-top: auto; }
+  .user-menu-trigger { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-top: 1px solid var(--border); cursor: pointer; transition: background 0.15s; width: 100%; background: none; border-left: none; border-right: none; border-bottom: none; font-family: var(--body); text-align: left; }
+  .user-menu-trigger:hover { background: rgba(255,255,255,0.03); }
+  .user-menu-info { flex: 1; min-width: 0; }
+  .user-menu-name { font-size: 13px; font-weight: 600; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .user-menu-email { font-size: 11px; font-weight: 500; color: var(--text-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .user-menu-expand { margin-left: auto; flex-shrink: 0; color: var(--text-light); }
+  .user-menu-expand svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .user-menu-dropdown { position: absolute; bottom: calc(100% + 6px); left: 12px; right: 12px; z-index: 10; display: none; }
+  .user-menu-dropdown.open { display: block; }
+  .user-menu-plan-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; }
+  .user-menu-plan-label { font-size: 12px; font-weight: 500; color: var(--text-light); }
+
+  @media (max-width: 900px) {
+    .ds-wrapper { grid-template-columns: 1fr; }
+    .ds-sidebar { display: none; }
+    .ds-main { padding: 32px 20px 80px; }
+    .shadow-grid { grid-template-columns: repeat(2, 1fr); }
+    .anim-grid { grid-template-columns: 1fr; }
+    .swatch-grid { grid-template-columns: repeat(2, 1fr); }
+    .component-stage { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="ds-wrapper">
+  <aside class="ds-sidebar">
+    <div class="ds-sidebar-logo"><span class="logo-icon"><img src="/assets/logo_no_bg.png" alt="AI Starter" width="24" height="24" style="width:100%;height:100%;object-fit:contain;"></span><span><span style="color:var(--primary);">Fin</span>alytís</span></div>
+    <div class="ds-sidebar-subtitle">Design System v2.0</div>
+    <nav>
+      <div class="ds-nav-group"><div class="ds-nav-label">Foundations</div>
+        <a href="#colors" class="ds-nav-link active">Colors</a><a href="#typography" class="ds-nav-link">Typography</a><a href="#spacing" class="ds-nav-link">Spacing</a><a href="#radii" class="ds-nav-link">Border Radii</a><a href="#shadows" class="ds-nav-link">Shadows</a><a href="#animations" class="ds-nav-link">Animations</a>
+      </div>
+      <div class="ds-nav-group"><div class="ds-nav-label">Components</div>
+        <a href="#buttons" class="ds-nav-link">Buttons</a><a href="#pills-badges" class="ds-nav-link">Pills & Badges</a><a href="#chips-tags" class="ds-nav-link">Chips & Tags</a><a href="#cards" class="ds-nav-link">Cards</a><a href="#icons" class="ds-nav-link">Icon Containers</a>
+      </div>
+      <div class="ds-nav-group"><div class="ds-nav-label">Platform</div>
+        <a href="#forms" class="ds-nav-link">Form Inputs</a><a href="#tabs" class="ds-nav-link">Tabs</a><a href="#tables" class="ds-nav-link">Tables</a><a href="#modals" class="ds-nav-link">Modals</a><a href="#toasts" class="ds-nav-link">Toasts</a><a href="#alerts" class="ds-nav-link">Alerts</a><a href="#dropdowns" class="ds-nav-link">Dropdowns</a><a href="#progress" class="ds-nav-link">Progress & Usage</a><a href="#empty-states" class="ds-nav-link">Empty States</a><a href="#loading" class="ds-nav-link">Loading States</a><a href="#breadcrumbs" class="ds-nav-link">Breadcrumbs</a><a href="#tooltips" class="ds-nav-link">Tooltips</a><a href="#avatars" class="ds-nav-link">Avatars</a><a href="#app-nav" class="ds-nav-link">App Sidebar</a>
+      </div>
+      <div class="ds-nav-group"><div class="ds-nav-label">Patterns</div><a href="#user-menu" class="ds-nav-link">User Menu</a><a href="#layout" class="ds-nav-link">Layout</a></div>
+    </nav>
+  </aside>
+  <main class="ds-main">
+    <div class="ds-section" style="margin-bottom: 48px;">
+      <div class="pill pill-primary" style="margin-bottom: 20px;">Design System <span class="pill-tag pill-tag-primary">v2.0</span></div>
+      <h1 style="font-family: var(--display); font-size: clamp(36px, 5vw, 48px); font-weight: 700; color: var(--white); line-height: 1.15; margin-bottom: 12px; letter-spacing: -1px;">AI Starter<br>Design System</h1>
+      <p style="font-size: 17px; color: var(--text-mid); max-width: 560px; line-height: 1.75;">Precision Dashboard — dark editorial, finance-grade clarity. Amber/gold primary, teal secondary, refined radii, and Space Grotesk + Geist typography.</p>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- COLORS -->
+    <div class="ds-section" id="colors">
+      <div class="ds-section-title">Colors</div>
+      <p class="ds-section-desc">Warm charcoal foundation with amber/gold primary and cool teal secondary. Semantic palette for success, warning, danger, and info states.</p>
+      <div class="ds-subsection"><div class="ds-subsection-title">Backgrounds</div>
+        <div class="swatch-grid">
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#0f1115;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">bg</div><div class="swatch-value">#0f1115</div></div></div>
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#141519;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">bg-subtle</div><div class="swatch-value">#141519</div></div></div>
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#1a1b21;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">surface</div><div class="swatch-value">#1a1b21</div></div></div>
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#212229;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">surface-raised</div><div class="swatch-value">#212229</div></div></div>
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#2a2b33;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">surface-hover</div><div class="swatch-value">#2a2b33</div></div></div>
+        </div>
+      </div>
+      <div class="ds-subsection"><div class="ds-subsection-title">Brand: Amber/Gold (Primary)</div>
+        <div class="swatch-grid">
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:rgba(232,168,72,0.1);"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">primary-soft</div><div class="swatch-value">rgba(232,168,72,0.1)</div></div></div>
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#e8a848;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">primary</div><div class="swatch-value">#e8a848</div></div></div>
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#d4952e;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">primary-deep</div><div class="swatch-value">#d4952e</div></div></div>
+        </div>
+      </div>
+      <div class="ds-subsection"><div class="ds-subsection-title">Brand: Teal (Secondary)</div>
+        <div class="swatch-grid">
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:rgba(56,190,201,0.1);"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">secondary-soft</div><div class="swatch-value">rgba(56,190,201,0.1)</div></div></div>
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#38bec9;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">secondary</div><div class="swatch-value">#38bec9</div></div></div>
+        </div>
+      </div>
+      <div class="ds-subsection"><div class="ds-subsection-title">Accents</div>
+        <div class="swatch-grid">
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#648cdc;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">accent-blue</div><div class="swatch-value">#648cdc</div></div></div>
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#8c78d2;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">accent-violet</div><div class="swatch-value">#8c78d2</div></div></div>
+        </div>
+      </div>
+      <div class="ds-subsection"><div class="ds-subsection-title">Semantic Colors</div>
+        <div class="swatch-grid">
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#34c88a;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">success</div><div class="swatch-value">#34c88a</div></div></div>
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#e8a848;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">warning</div><div class="swatch-value">#e8a848</div></div></div>
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#e05252;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">danger</div><div class="swatch-value">#e05252</div></div></div>
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#648cdc;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">info</div><div class="swatch-value">#648cdc</div></div></div>
+        </div>
+      </div>
+      <div class="ds-subsection"><div class="ds-subsection-title">Text & Borders</div>
+        <div class="swatch-grid">
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#ecedf0;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">white</div><div class="swatch-value">#ecedf0</div></div></div>
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#888c9e;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">text-mid</div><div class="swatch-value">#888c9e</div></div></div>
+          <div class="swatch" onclick="copySwatch(this)"><div class="swatch-color" style="background:#555868;"><div class="swatch-copied">Copied!</div></div><div class="swatch-info"><div class="swatch-name">text-light</div><div class="swatch-value">#555868</div></div></div>
+        </div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- TYPOGRAPHY -->
+    <div class="ds-section" id="typography">
+      <div class="ds-section-title">Typography</div>
+      <div class="ds-subsection"><div class="ds-subsection-title">Type Scale</div>
+        <div class="type-specimen" style="padding: 24px 32px;"><div class="type-scale">
+          <div class="type-scale-row"><span class="type-scale-label">Hero H1</span><span class="type-scale-size">58px</span><span style="font-family:var(--display);font-size:clamp(24px,3.5vw,36px);font-weight:700;color:var(--white);line-height:1.1;letter-spacing:-1px;">Heading One</span></div>
+          <div class="type-scale-row"><span class="type-scale-label">Section H2</span><span class="type-scale-size">44px</span><span style="font-family:var(--display);font-size:clamp(22px,3vw,32px);font-weight:700;color:var(--white);line-height:1.15;">Heading Two</span></div>
+          <div class="type-scale-row"><span class="type-scale-label">Card H3</span><span class="type-scale-size">20px</span><span style="font-family:var(--display);font-size:20px;font-weight:600;color:var(--white);">Heading Three</span></div>
+          <div class="type-scale-row"><span class="type-scale-label">Body</span><span class="type-scale-size">15px</span><span style="font-family:var(--body);font-size:15px;color:var(--text-mid);">Button & regular text</span></div>
+          <div class="type-scale-row"><span class="type-scale-label">Small</span><span class="type-scale-size">14px</span><span style="font-family:var(--body);font-size:14px;color:var(--text-mid);">Table cells, descriptions</span></div>
+          <div class="type-scale-row"><span class="type-scale-label">Caption</span><span class="type-scale-size">13px</span><span style="font-family:var(--body);font-size:13px;color:var(--text-light);">Labels, hints, pills</span></div>
+          <div class="type-scale-row"><span class="type-scale-label">Micro</span><span class="type-scale-size">11px</span><span style="font-family:var(--body);font-size:11px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;">TAGS, BADGES, HEADERS</span></div>
+        </div></div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- SPACING -->
+    <div class="ds-section" id="spacing">
+      <div class="ds-section-title">Spacing</div>
+      <div class="type-specimen">
+        <div class="spacing-row"><span class="spacing-label">4px</span><div class="spacing-bar" style="width:4px;"></div><span class="spacing-val">4px</span></div>
+        <div class="spacing-row"><span class="spacing-label">8px</span><div class="spacing-bar" style="width:16px;"></div><span class="spacing-val">8px</span></div>
+        <div class="spacing-row"><span class="spacing-label">16px</span><div class="spacing-bar" style="width:48px;"></div><span class="spacing-val">16px</span></div>
+        <div class="spacing-row"><span class="spacing-label">24px</span><div class="spacing-bar" style="width:80px;"></div><span class="spacing-val">24px</span></div>
+        <div class="spacing-row"><span class="spacing-label">32px</span><div class="spacing-bar" style="width:112px;"></div><span class="spacing-val">32px</span></div>
+        <div class="spacing-row"><span class="spacing-label">48px</span><div class="spacing-bar" style="width:160px;"></div><span class="spacing-val">48px</span></div>
+        <div class="spacing-row"><span class="spacing-label">80px</span><div class="spacing-bar" style="width:280px;"></div><span class="spacing-val">80px</span></div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- RADII -->
+    <div class="ds-section" id="radii">
+      <div class="ds-section-title">Border Radii</div>
+      <div class="component-stage center">
+        <div class="radius-item"><div class="radius-shape" style="border-radius:6px;"></div><div class="radius-label">xs</div><div class="radius-value">6px</div></div>
+        <div class="radius-item"><div class="radius-shape" style="border-radius:8px;"></div><div class="radius-label">sm</div><div class="radius-value">8px</div></div>
+        <div class="radius-item"><div class="radius-shape" style="border-radius:12px;"></div><div class="radius-label">md</div><div class="radius-value">12px</div></div>
+        <div class="radius-item"><div class="radius-shape" style="border-radius:14px;"></div><div class="radius-label">lg</div><div class="radius-value">14px</div></div>
+        <div class="radius-item"><div class="radius-shape" style="border-radius:18px;"></div><div class="radius-label">xl</div><div class="radius-value">18px</div></div>
+        <div class="radius-item"><div class="radius-shape" style="border-radius:100px;"></div><div class="radius-label">pill</div><div class="radius-value">100px</div></div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- SHADOWS -->
+    <div class="ds-section" id="shadows">
+      <div class="ds-section-title">Shadows</div>
+      <p class="ds-section-desc">Clean elevation only — no colored glows.</p>
+      <div class="shadow-grid">
+        <div class="shadow-box" style="box-shadow:var(--shadow-sm);"><div class="shadow-box-label">sm</div><div class="shadow-box-value">shadow-sm</div></div>
+        <div class="shadow-box" style="box-shadow:var(--shadow-md);"><div class="shadow-box-label">md</div><div class="shadow-box-value">shadow-md</div></div>
+        <div class="shadow-box" style="box-shadow:var(--shadow-lg);"><div class="shadow-box-label">lg</div><div class="shadow-box-value">shadow-lg</div></div>
+        <div class="shadow-box" style="box-shadow:var(--shadow-xl);"><div class="shadow-box-label">xl</div><div class="shadow-box-value">shadow-xl</div></div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- ANIMATIONS -->
+    <div class="ds-section" id="animations">
+      <div class="ds-section-title">Animations</div>
+      <div class="anim-grid">
+        <div class="anim-card"><div class="anim-target anim-target-slideUp" style="background:var(--primary-soft);border:1px solid rgba(232,168,72,0.2);"></div><div class="anim-name">slideUp</div><div class="anim-desc">Y+20→0 · 0.6s</div></div>
+        <div class="anim-card"><div class="anim-target anim-target-popIn" style="background:var(--secondary-soft);border:1px solid rgba(56,190,201,0.2);"></div><div class="anim-name">popIn</div><div class="anim-desc">Scale 0.95→1 · 0.5s</div></div>
+        <div class="anim-card"><div class="anim-target anim-target-floatIn" style="background:var(--accent-violet);border:1px solid rgba(140,120,210,0.2);"></div><div class="anim-name">floatIn</div><div class="anim-desc">Y+28→0 · 0.8s</div></div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- BUTTONS -->
+    <div class="ds-section" id="buttons">
+      <div class="ds-section-title">Buttons</div>
+      <div class="ds-subsection"><div class="ds-subsection-title">Variants</div>
+        <div class="component-stage">
+          <button class="btn btn-primary">Primary →</button>
+          <button class="btn btn-secondary">Secondary</button>
+          <button class="btn btn-ghost">Ghost</button>
+          <button class="btn btn-danger btn-sm">Delete</button>
+        </div>
+      </div>
+      <div class="ds-subsection"><div class="ds-subsection-title">Sizes</div>
+        <div class="component-stage">
+          <button class="btn btn-primary btn-sm">Small →</button>
+          <button class="btn btn-primary">Default →</button>
+          <button class="btn btn-primary btn-lg">Large →</button>
+        </div>
+      </div>
+      <div class="ds-subsection"><div class="ds-subsection-title">Icon Buttons</div>
+        <div class="component-stage">
+          <button class="btn-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+          <button class="btn-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></button>
+          <button class="btn-icon"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.4 2.6a2.17 2.17 0 013 3L12 15l-4 1 1-4 9.4-9.4z"/></svg></button>
+          <button class="btn-icon"><svg viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
+        </div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- PILLS & BADGES -->
+    <div class="ds-section" id="pills-badges">
+      <div class="ds-section-title">Pills & Badges</div>
+      <div class="component-stage">
+        <div class="pill pill-primary">Launching Feb 2026 <span class="pill-tag pill-tag-primary">New</span></div>
+        <div class="pill pill-secondary">Insight delivered <span class="pill-tag pill-tag-secondary">Live</span></div>
+      </div>
+      <div class="component-stage" style="margin-top:12px;">
+        <span class="badge badge-new">New</span>
+        <span class="badge badge-fix">Fix</span>
+        <span class="badge badge-improved">Improved</span>
+        <span class="badge badge-draft">Draft</span>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- CHIPS & TAGS -->
+    <div class="ds-section" id="chips-tags">
+      <div class="ds-section-title">Chips & Tags</div>
+      <div class="component-stage">
+        <span class="chip">AAPL/nasdaq</span>
+        <span class="chip chip-secondary"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 127 signals</span>
+        <span class="chip chip-primary">8.2%</span>
+      </div>
+      <div class="component-stage" style="margin-top:12px;">
+        <span class="mini-tag active">Bullish</span><span class="mini-tag">Bearish</span><span class="mini-tag">Neutral</span><span class="mini-tag active">Growth</span><span class="mini-tag">Dividend</span>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- CARDS -->
+    <div class="ds-section" id="cards">
+      <div class="ds-section-title">Cards</div>
+      <div class="component-stage dark">
+        <div class="card" style="max-width:300px;">
+          <div class="icon-box icon-box-secondary" style="margin-bottom:20px;"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></div>
+          <h3 style="font-family:var(--display);font-size:20px;font-weight:600;color:var(--white);margin-bottom:8px;">Real-time Data</h3>
+          <p style="font-size:14px;color:var(--text-mid);line-height:1.75;">Live market feeds, earnings calendars, and todo workflows delivered instantly.</p>
+        </div>
+        <div class="card card-featured" style="max-width:300px;">
+          <div style="text-align:center;">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--primary);margin-bottom:12px;">Most Popular</div>
+            <div style="font-family:var(--display);font-size:48px;font-weight:700;color:var(--white);margin-bottom:4px;">$59<span style="font-size:18px;font-weight:500;color:var(--text-light);">/mo</span></div>
+            <div style="font-size:14px;color:var(--text-mid);">For investors tracking at scale</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- ICONS -->
+    <div class="ds-section" id="icons">
+      <div class="ds-section-title">Icon Containers</div>
+      <div class="component-stage center">
+        <div style="text-align:center;"><div class="icon-box icon-box-primary" style="margin:0 auto 8px;"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4m0 10v4M5.6 5.6l2.8 2.8m7.2 7.2 2.8 2.8M3 12h4m10 0h4M5.6 18.4l2.8-2.8m7.2-7.2 2.8-2.8"/><circle cx="12" cy="12" r="3"/></svg></div><div style="font-size:11px;color:var(--text-light);">Primary</div></div>
+        <div style="text-align:center;"><div class="icon-box icon-box-secondary" style="margin:0 auto 8px;"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></div><div style="font-size:11px;color:var(--text-light);">Secondary</div></div>
+        <div style="text-align:center;"><div class="icon-box icon-box-violet" style="margin:0 auto 8px;"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.4 2.6a2.17 2.17 0 0 1 3 3L12 15l-4 1 1-4 9.4-9.4z"/></svg></div><div style="font-size:11px;color:var(--text-light);">Violet</div></div>
+        <div style="text-align:center;"><div class="icon-box icon-box-blue" style="margin:0 auto 8px;"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></div><div style="font-size:11px;color:var(--text-light);">Blue</div></div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- FORMS -->
+    <div class="ds-section" id="forms">
+      <div class="ds-section-title">Form Inputs</div>
+      <p class="ds-section-desc">All inputs use bg background, sm radius, and amber focus ring.</p>
+      <div class="ds-subsection"><div class="ds-subsection-title">Text Input</div>
+        <div class="component-stage col" style="max-width:400px;">
+          <div class="input-group"><label class="input-label">Watchlist Name</label><input type="text" class="input" placeholder="My Portfolio"><div class="input-hint">Used as the display name in your dashboard</div></div>
+          <div class="input-group"><label class="input-label">Ticker Symbol</label><input type="text" class="input error" value="invalid ticker!"><div class="input-hint error">Ticker must be uppercase letters only</div></div>
+        </div>
+      </div>
+      <div class="ds-subsection"><div class="ds-subsection-title">Select</div>
+        <div class="component-stage col" style="max-width:400px;">
+          <div class="input-group"><label class="input-label">Audience</label><div class="select-wrapper"><select class="select"><option>Technical</option><option>Business</option><option>General</option></select></div></div>
+        </div>
+      </div>
+      <div class="ds-subsection"><div class="ds-subsection-title">Textarea</div>
+        <div class="component-stage col" style="max-width:400px;">
+          <div class="input-group"><label class="input-label">Insight Notes</label><textarea class="input input-textarea" placeholder="Write your market notes here…"></textarea></div>
+        </div>
+      </div>
+      <div class="ds-subsection"><div class="ds-subsection-title">Toggle & Date Range</div>
+        <div class="component-stage">
+          <div style="display:flex;align-items:center;gap:12px;"><div class="toggle"></div><span style="font-size:14px;color:var(--text-mid);">Off</span></div>
+          <div style="display:flex;align-items:center;gap:12px;"><div class="toggle on"></div><span style="font-size:14px;color:var(--white);">On</span></div>
+          <div class="date-range" style="margin-left:24px;"><input type="text" class="date-input" value="2026-01-15" style="width:140px;"><span class="date-sep">→</span><input type="text" class="date-input" value="2026-02-06" style="width:140px;"></div>
+        </div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- TABS -->
+    <div class="ds-section" id="tabs">
+      <div class="ds-section-title">Tabs</div>
+      <div class="component-stage">
+        <div class="tab-bar"><button class="tab-item active">Briefing</button><button class="tab-item">Alerts</button></div>
+      </div>
+      <div class="component-stage" style="margin-top:12px;">
+        <div class="tab-bar"><button class="tab-item active">Overview</button><button class="tab-item">Insights</button><button class="tab-item">Settings</button></div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- TABLES -->
+    <div class="ds-section" id="tables">
+      <div class="ds-section-title">Tables</div>
+      <div class="table-wrapper">
+        <table class="table"><thead><tr><th>Insight</th><th>Status</th><th>Signals</th><th>Date</th></tr></thead><tbody>
+          <tr><td class="title-cell">Pre-Market Briefing — Tech Sector Rally</td><td><span class="badge badge-new">Published</span></td><td>127</td><td style="color:var(--text-light);">Feb 6, 2026</td></tr>
+          <tr><td class="title-cell">Earnings Alert — AAPL Q1 Beat</td><td><span class="badge badge-fix">Updated</span></td><td>8</td><td style="color:var(--text-light);">Jan 28, 2026</td></tr>
+          <tr><td class="title-cell">Weekly Watchlist — Dividend Picks</td><td><span class="badge badge-draft">Draft</span></td><td>84</td><td style="color:var(--text-light);">Jan 15, 2026</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- MODALS -->
+    <div class="ds-section" id="modals">
+      <div class="ds-section-title">Modals</div>
+      <div class="modal-preview">
+        <div class="modal-box">
+          <div class="modal-title">Upgrade Your Plan</div>
+          <div class="modal-desc">You've reached your free plan limit of 5 insights per month. Upgrade to Pro for unlimited insights, real-time alerts, and priority data feeds.</div>
+          <div class="modal-actions"><button class="btn btn-secondary btn-sm">Stay on Free</button><button class="btn btn-primary btn-sm">Upgrade — $59/mo</button></div>
+        </div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- TOASTS -->
+    <div class="ds-section" id="toasts">
+      <div class="ds-section-title">Toasts</div>
+      <div class="component-stage col" style="gap:12px;">
+        <div class="toast toast-success"><div class="toast-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="toast-text">Insight published successfully<small>View it on your dashboard</small></div><button class="toast-close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+        <div class="toast toast-error"><div class="toast-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div><div class="toast-text">Failed to fetch market data<small>Data provider returned 403</small></div><button class="toast-close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+        <div class="toast toast-warning"><div class="toast-icon"><svg viewBox="0 0 24 24"><path d="M10.3 3.5l-8 14A2 2 0 004 20h16a2 2 0 001.7-3l-8-14a2 2 0 00-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="toast-text">1,247 tickers tracked — plan allows 500</div><button class="toast-close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+        <div class="toast toast-info"><div class="toast-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div><div class="toast-text">Copied to clipboard!</div><button class="toast-close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- ALERTS -->
+    <div class="ds-section" id="alerts">
+      <div class="ds-section-title">Alerts</div>
+      <div class="component-stage col" style="gap:12px;">
+        <div class="alert alert-info"><div class="alert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div><div class="alert-content"><div class="alert-title">14-day trial active</div><div class="alert-desc">You have 11 days remaining.</div></div></div>
+        <div class="alert alert-warning"><div class="alert-icon"><svg viewBox="0 0 24 24"><path d="M10.3 3.5l-8 14A2 2 0 004 20h16a2 2 0 001.7-3l-8-14a2 2 0 00-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="alert-content"><div class="alert-title">Approaching limit</div><div class="alert-desc">4 of 5 insights used this month.</div></div></div>
+        <div class="alert alert-danger"><div class="alert-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div><div class="alert-content"><div class="alert-title">Data feed sync failed</div><div class="alert-desc">Unable to reach market data provider.</div></div></div>
+        <div class="alert alert-success"><div class="alert-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="alert-content"><div class="alert-title">Upgrade complete</div><div class="alert-desc">All Pro features unlocked.</div></div></div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- DROPDOWNS -->
+    <div class="ds-section" id="dropdowns">
+      <div class="ds-section-title">Dropdowns</div>
+      <div class="component-stage">
+        <div class="dropdown-menu">
+          <button class="dropdown-item"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Copy as Markdown</button>
+          <button class="dropdown-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg> Copy as HTML</button>
+          <button class="dropdown-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Copy as Plain Text</button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item danger"><svg viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg> Delete Insight</button>
+        </div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- PROGRESS -->
+    <div class="ds-section" id="progress">
+      <div class="ds-section-title">Progress & Usage</div>
+      <div class="component-stage col" style="gap:16px;max-width:400px;">
+        <div class="usage-card"><div class="usage-header"><span class="usage-label">Insights this month</span><span class="usage-count">2 <span>/ 5</span></span></div><div class="progress-track"><div class="progress-fill secondary" style="width:40%;"></div></div></div>
+        <div class="usage-card"><div class="usage-header"><span class="usage-label">Insights this month</span><span class="usage-count">4 <span>/ 5</span></span></div><div class="progress-track"><div class="progress-fill warning" style="width:80%;"></div></div></div>
+        <div class="usage-card"><div class="usage-header"><span class="usage-label">Insights this month</span><span class="usage-count">5 <span>/ 5</span></span></div><div class="progress-track"><div class="progress-fill danger" style="width:100%;"></div></div></div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- EMPTY STATES -->
+    <div class="ds-section" id="empty-states">
+      <div class="ds-section-title">Empty States</div>
+      <div class="component-stage dark">
+        <div class="empty-state" style="width:100%;">
+          <div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="empty-title">No insights yet</div>
+          <div class="empty-desc">Your todo workflows will appear here once you add tickers to your todo list.</div>
+          <button class="btn btn-primary btn-sm">Add First Ticker →</button>
+        </div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- LOADING -->
+    <div class="ds-section" id="loading">
+      <div class="ds-section-title">Loading States</div>
+      <div class="component-stage col" style="gap:16px;">
+        <div style="display:flex;align-items:center;gap:16px;"><div class="skeleton skeleton-avatar"></div><div style="flex:1;"><div class="skeleton skeleton-text" style="width:40%;"></div><div class="skeleton skeleton-text" style="width:65%;"></div></div></div>
+        <div class="skeleton skeleton-heading"></div>
+        <div class="skeleton skeleton-text"></div>
+        <div class="skeleton skeleton-text"></div>
+        <div class="skeleton skeleton-text" style="width:60%;"></div>
+        <div class="skeleton skeleton-block" style="margin-top:8px;"></div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- BREADCRUMBS -->
+    <div class="ds-section" id="breadcrumbs">
+      <div class="ds-section-title">Breadcrumbs</div>
+      <div class="component-stage">
+        <div class="breadcrumbs"><a href="#" class="breadcrumb-item">Dashboard</a><span class="breadcrumb-sep">›</span><a href="#" class="breadcrumb-item">AAPL</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-item current">Pre-Market Briefing</span></div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- TOOLTIPS -->
+    <div class="ds-section" id="tooltips">
+      <div class="ds-section-title">Tooltips</div>
+      <div class="component-stage center">
+        <div class="tooltip-demo" style="margin-top:40px;"><div class="tooltip-bubble">Copied to clipboard!</div><button class="btn btn-secondary btn-sm">Copy Markdown</button></div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- AVATARS -->
+    <div class="ds-section" id="avatars">
+      <div class="ds-section-title">Avatars</div>
+      <div class="component-stage center">
+        <div class="avatar avatar-sm" style="background:var(--primary);">JD</div>
+        <div class="avatar avatar-md" style="background:var(--secondary);">AK</div>
+        <div class="avatar avatar-lg" style="background:var(--accent-violet-solid);">RF</div>
+      </div>
+      <p class="ds-note">Sizes: sm (28px), md (36px), lg (48px). Display font initials on brand color backgrounds.</p>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- APP SIDEBAR -->
+    <div class="ds-section" id="app-nav">
+      <div class="ds-section-title">App Sidebar</div>
+      <div class="component-stage dark">
+        <div class="app-sidebar-demo" style="display:flex;flex-direction:column;min-height:360px;">
+          <a href="#" class="app-sidebar-item active"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Dashboard</a>
+          <a href="#" class="app-sidebar-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Insights</a>
+          <a href="#" class="app-sidebar-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82 1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg> Settings</a>
+          <a href="#" class="app-sidebar-item"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Billing</a>
+          <div class="user-menu">
+            <button class="user-menu-trigger" onclick="this.nextElementSibling.classList.toggle('open')">
+              <div class="avatar avatar-sm" style="background:var(--primary);">JD</div>
+              <div class="user-menu-info"><div class="user-menu-name">Jane Doe</div><div class="user-menu-email">jane@acme.com</div></div>
+              <div class="user-menu-expand"><svg viewBox="0 0 24 24"><path d="M7 15l5-5 5 5"/></svg></div>
+            </button>
+            <div class="user-menu-dropdown">
+              <div class="dropdown-menu">
+                <div class="user-menu-plan-row"><span class="user-menu-plan-label">Current plan</span><span class="badge badge-new">Free</span></div>
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82 1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg> Settings</button>
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item danger"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Log out</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- USER MENU -->
+    <div class="ds-section" id="user-menu">
+      <div class="ds-section-title">User Menu</div>
+      <p class="ds-section-desc">Composed pattern for showing the logged-in user. Combines Avatar, Dropdown, and Badge — no new tokens required.</p>
+      <div class="ds-subsection"><div class="ds-subsection-title">Trigger (Closed)</div>
+        <div class="component-stage dark" style="max-width:240px;">
+          <button class="user-menu-trigger" style="border-top:1px solid var(--border);width:100%;" onclick="this.parentElement.querySelector('.user-menu-dropdown').classList.toggle('open')">
+            <div class="avatar avatar-sm" style="background:var(--secondary);">AK</div>
+            <div class="user-menu-info"><div class="user-menu-name">Alex Kim</div><div class="user-menu-email">alex.kim@company.io</div></div>
+            <div class="user-menu-expand"><svg viewBox="0 0 24 24"><path d="M7 15l5-5 5 5"/></svg></div>
+          </button>
+          <div class="user-menu-dropdown" style="position:relative;bottom:auto;left:0;right:0;">
+            <div class="dropdown-menu">
+              <div class="user-menu-plan-row"><span class="user-menu-plan-label">Current plan</span><span class="badge badge-improved">Pro</span></div>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82 1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg> Settings</button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item danger"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Log out</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ds-subsection"><div class="ds-subsection-title">Composition</div>
+        <div class="code-block"><span class="hl-comment">/* User Menu — composed from existing primitives */</span>
+
+<span class="hl-comment">/* Trigger: sits at sidebar bottom via margin-top: auto */</span>
+<span class="hl-prop">display</span>: <span class="hl-val">flex</span>;
+<span class="hl-prop">align-items</span>: <span class="hl-val">center</span>;
+<span class="hl-prop">gap</span>: <span class="hl-val">12px</span>;
+<span class="hl-prop">padding</span>: <span class="hl-val">12px 20px</span>;
+<span class="hl-prop">border-top</span>: <span class="hl-val">1px solid var(--border)</span>;
+
+<span class="hl-comment">/* Dropdown: positioned above trigger */</span>
+<span class="hl-prop">position</span>: <span class="hl-val">absolute</span>;
+<span class="hl-prop">bottom</span>: <span class="hl-val">calc(100% + 6px)</span>;
+<span class="hl-prop">left</span>: <span class="hl-val">12px</span>;
+<span class="hl-prop">right</span>: <span class="hl-val">12px</span>;
+
+<span class="hl-comment">/* Uses: Avatar (sm), Dropdown Menu, Badge, Dropdown Item */</span></div>
+      </div>
+      <p class="ds-note">Click the trigger in the App Sidebar demo above to see the dropdown in context. The user menu uses margin-top: auto to pin itself to the sidebar bottom.</p>
+    </div>
+    <hr class="ds-divider">
+
+    <!-- LAYOUT -->
+    <div class="ds-section" id="layout">
+      <div class="ds-section-title">Layout</div>
+      <div class="ds-subsection"><div class="ds-subsection-title">Grid Patterns</div>
+        <div class="code-block"><span class="hl-comment">/* App shell: sidebar + main */</span>
+<span class="hl-prop">grid-template-columns</span>: <span class="hl-val">260px 1fr</span>;
+
+<span class="hl-comment">/* Hero: 2-column split */</span>
+<span class="hl-prop">grid-template-columns</span>: <span class="hl-val">1fr 1fr</span>;  <span class="hl-prop">gap</span>: <span class="hl-val">60px</span>;
+
+<span class="hl-comment">/* Bento: 3-col with span-2 wide cards */</span>
+<span class="hl-prop">grid-template-columns</span>: <span class="hl-val">repeat(3, 1fr)</span>;  <span class="hl-prop">gap</span>: <span class="hl-val">16px</span>;
+
+<span class="hl-comment">/* Container */</span>
+<span class="hl-prop">max-width</span>: <span class="hl-val">1140px</span>;  <span class="hl-prop">padding</span>: <span class="hl-val">0 28px</span>;
+
+<span class="hl-comment">/* Breakpoint: @media (max-width: 900px) → single column */</span></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+<script>
+  function copySwatch(el) {
+    const val = el.querySelector('.swatch-value').textContent;
+    navigator.clipboard.writeText(val).then(() => {
+      const badge = el.querySelector('.swatch-copied');
+      badge.classList.add('show');
+      setTimeout(() => badge.classList.remove('show'), 1200);
+    });
+  }
+  const sections = document.querySelectorAll('.ds-section[id]');
+  const navLinks = document.querySelectorAll('.ds-nav-link');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector('.ds-nav-link[href="#' + entry.target.id + '"]');
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

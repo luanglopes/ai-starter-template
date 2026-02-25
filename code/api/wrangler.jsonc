@@ -1,0 +1,18 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "template-api",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-12-17",
+	"compatibility_flags": ["nodejs_compat"],
+	"observability": {
+		"enabled": true
+	},
+	"vars": {
+		"ENVIRONMENT": "production",
+		"EMAIL_FROM": "AI Starter <noreply@example.com>"
+	}
+	// TURNSTILE_SECRET_KEY is set via `wrangler secret put TURNSTILE_SECRET_KEY`
+	// GEMINI_API_KEY is set via `wrangler secret put GEMINI_API_KEY`
+	// AUTUMN_API_KEY is set via `wrangler secret put AUTUMN_API_KEY`
+	// RESEND_API_KEY is set via `wrangler secret put RESEND_API_KEY`
+}

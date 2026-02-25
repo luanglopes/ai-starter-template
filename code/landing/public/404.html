@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Page Not Found | AI Starter</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0f1115">
+<link rel="icon" href="/assets/favicon/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/favicon/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/favicon/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/shared.css">
+<style>
+  /* 404-specific body overrides */
+  body {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* Ambient glow */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(232, 168, 72, 0.06) 0%, rgba(56, 190, 201, 0.03) 40%, transparent 70%);
+    pointer-events: none;
+    z-index: var(--z-base);
+  }
+
+  /* Floating fragments */
+  .fragments {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: var(--z-base);
+    overflow: hidden;
+  }
+
+  .fragment {
+    position: absolute;
+    font-family: var(--body);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    color: var(--text-light);
+    white-space: nowrap;
+    opacity: 0;
+    animation: drift 18s linear infinite;
+  }
+
+  .fragment::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-right: var(--space-2);
+    vertical-align: middle;
+  }
+
+  .fragment:nth-child(odd)::before { background: var(--primary); opacity: 0.4; }
+  .fragment:nth-child(even)::before { background: var(--secondary); opacity: 0.3; }
+
+  .fragment:nth-child(1) { top: 8%; left: -300px; animation-delay: 0s; animation-duration: 22s; }
+  .fragment:nth-child(2) { top: 18%; left: -250px; animation-delay: 3s; animation-duration: 26s; }
+  .fragment:nth-child(3) { top: 32%; left: -350px; animation-delay: 7s; animation-duration: 20s; }
+  .fragment:nth-child(4) { top: 55%; left: -280px; animation-delay: 2s; animation-duration: 24s; }
+  .fragment:nth-child(5) { top: 70%; left: -320px; animation-delay: 5s; animation-duration: 28s; }
+  .fragment:nth-child(6) { top: 85%; left: -200px; animation-delay: 9s; animation-duration: 21s; }
+  .fragment:nth-child(7) { top: 44%; left: -260px; animation-delay: 11s; animation-duration: 25s; }
+
+  @keyframes drift {
+    0% { transform: translateX(0); opacity: 0; }
+    5% { opacity: 0.35; }
+    90% { opacity: 0.35; }
+    100% { transform: translateX(calc(100vw + 600px)); opacity: 0; }
+  }
+
+  /* Main content */
+  .page {
+    position: relative;
+    z-index: var(--z-raised);
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-12) var(--space-7);
+  }
+
+  .content {
+    text-align: center;
+    max-width: var(--width-md);
+  }
+
+  /* The 404 number */
+  .error-code {
+    font-family: var(--display);
+    font-weight: var(--weight-bold);
+    font-size: clamp(100px, 20vw, 180px);
+    line-height: var(--leading-none);
+    letter-spacing: var(--tracking-tight);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-deep) 50%, var(--secondary) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    margin-bottom: var(--space-2);
+    animation: fadeInUp 0.8s var(--ease-smooth) both;
+    user-select: none;
+  }
+
+  /* Scan line across the 404 */
+  .error-code::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+    opacity: 0.5;
+    animation: scanLine 3s ease-in-out infinite;
+  }
+
+  @keyframes scanLine {
+    0%, 100% { top: 10%; opacity: 0; }
+    10% { opacity: 0.5; }
+    50% { top: 85%; opacity: 0.5; }
+    60% { opacity: 0; }
+  }
+
+  /* Badge */
+  .hash-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1_5) var(--space-4);
+    border-radius: var(--radius-pill);
+    background: var(--primary-soft);
+    border: 1px solid var(--primary-mid);
+    font-family: var(--mono);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--primary);
+    margin-bottom: var(--space-7);
+    animation: fadeInUp 0.8s var(--ease-smooth) 0.15s both;
+  }
+
+  .hash-badge .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .title {
+    font-family: var(--display);
+    font-size: clamp(20px, 4vw, 28px);
+    font-weight: var(--weight-bold);
+    color: var(--white);
+    margin-bottom: var(--space-3);
+    animation: fadeInUp 0.8s var(--ease-smooth) 0.3s both;
+  }
+
+  .description {
+    font-size: var(--text-base);
+    font-weight: var(--weight-medium);
+    color: var(--text-mid);
+    line-height: var(--leading-body);
+    margin-bottom: var(--space-9);
+    animation: fadeInUp 0.8s var(--ease-smooth) 0.45s both;
+  }
+
+  /* CTA buttons */
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    animation: fadeInUp 0.8s var(--ease-smooth) 0.6s both;
+  }
+
+  /* Override shared .btn for 404 page (centered + justify) */
+  .actions .btn {
+    justify-content: center;
+  }
+
+  .btn-primary {
+    padding: var(--space-4) var(--space-8);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .btn-secondary {
+    padding: var(--space-4) var(--space-8);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary:active {
+    transform: translateY(0);
+  }
+
+  .btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 500px) {
+    .actions {
+      flex-direction: column;
+      width: 100%;
+    }
+    .btn {
+      width: 100%;
+    }
+    .error-code {
+      letter-spacing: var(--tracking-snug);
+    }
+  }
+</style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <header>
+    <nav aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="logo" aria-label="AI Starter home">
+            <div class="logo-icon"><img src="/assets/logo_no_bg.png" alt="AI Starter logo" width="32" height="32"></div>
+            <span><span class="logo-accent">AI</span> Starter</span>
+          </a>
+          <ul class="nav-center">
+            <li><a href="/#features">Features</a></li>
+            <li><a href="/#how">How it works</a></li>
+            <li><a href="/#pricing">Pricing</a></li>
+          </ul>
+          <div class="nav-right">
+            <a href="https://app.example.com/auth/login" class="nav-login">Log in</a>
+            <a href="https://app.example.com/auth/signup" class="nav-cta">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Floating fragments -->
+  <div class="fragments" aria-hidden="true">
+    <span class="fragment">Fix login bug — AI Enhanced</span>
+    <span class="fragment">Deploy to production — In Progress</span>
+    <span class="fragment">Write API tests — 3 subtasks</span>
+    <span class="fragment">Add dark mode — AI Enhanced</span>
+    <span class="fragment">Set up CI pipeline — Completed</span>
+    <span class="fragment">Refactor auth flow — Pending</span>
+    <span class="fragment">Update dependencies — AI Enhanced</span>
+  </div>
+
+  <main id="main-content" class="page">
+    <div class="content">
+      <div class="error-code" aria-hidden="true">404</div>
+      <div class="hash-badge">
+        <span class="dot"></span>
+        page not found
+      </div>
+      <h1 class="title">This page doesn't exist</h1>
+      <p class="description">
+        The page you're looking for has been removed, renamed,
+        or never existed in the first place.
+      </p>
+      <div class="actions">
+        <a href="/" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z"/></svg>
+          Back to Home
+        </a>
+        <a href="https://app.example.com/auth/login" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+          Open Dashboard
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <p>&copy; 2026 AI Starter. All rights reserved.</p>
+        <div class="footer-links">
+          <a href="/privacy/">Privacy</a>
+          <a href="/terms/">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.querySelector('header');
+    const onScroll = () => {
+      if (window.scrollY > 20) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  </script>
+</body>
+</html>

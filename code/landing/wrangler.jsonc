@@ -1,0 +1,9 @@
+{
+  "name": "ai-starter-landing",
+  "compatibility_date": "2026-02-13",
+  "assets": {
+    "directory": "./public",
+    "html_handling": "force-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}

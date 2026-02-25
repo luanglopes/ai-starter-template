@@ -1,0 +1,47 @@
+{
+	"name": "@template/api",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"deploy": "wrangler deploy --local --log-level=debug",
+		"dev": "wrangler dev",
+		"start": "wrangler dev",
+		"test": "vitest --config vitest.config.mts --run && vitest --config vitest.integration.config.mts --run",
+		"test:unit": "vitest --config vitest.config.mts --run",
+		"test:integration": "bun run db:migrate:test && vitest --config vitest.integration.config.mts --run",
+		"test:types": "tsc --project tsconfig.test.json --noEmit",
+		"cf-typegen": "wrangler types",
+		"db:migrate": "drizzle-kit migrate",
+		"db:migrate:test": "drizzle-kit push --config=drizzle-test.config.ts",
+		"db:generate": "drizzle-kit generate",
+		"db:studio": "drizzle-kit studio",
+		"auth:generate": "NODE_ENV=cli bunx @better-auth/cli generate --config ./src/infra/better-auth/auth.ts --output ./src/infra/better-auth/auth-schema.ts",
+		"check": "tsc --noEmit && biome check --write",
+		"fix": "biome check --write",
+		"seed:stocks": "bun run scripts/seed-stocks.ts"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.3.10",
+		"@cloudflare/vitest-pool-workers": "^0.8.71",
+		"@types/bun": "latest",
+		"@types/pg": "^8.16.0",
+		"dotenv": "^17.2.3",
+		"drizzle-kit": "^0.31.8",
+		"typescript": "^5.9.3",
+		"vitest": "~3.2.4",
+		"wrangler": "^4.63.0"
+	},
+	"dependencies": {
+		"@hono/standard-validator": "^0.2.1",
+		"@valibot/to-json-schema": "^1.5.0",
+		"autumn-js": "^0.1.75",
+		"better-auth": "^1.4.10",
+		"drizzle-orm": "^0.45.1",
+		"hono": "^4.11.3",
+		"pg": "^8.18.0",
+		"postgres": "^3.4.8",
+		"resend": "^6.9.2",
+		"ulid-workers": "^2.1.0",
+		"valibot": "^1.2.0"
+	}
+}

@@ -1,0 +1,269 @@
+/* ===== AI Starter Design System Tokens ===== */
+/* Theme: Precision Dashboard — Dark editorial, finance-grade clarity */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Geist:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+	/* Backgrounds — warm charcoal base */
+	--bg: #0f1115;
+	--bg-subtle: #141519;
+	--surface: #1a1b21;
+	--surface-raised: #212229;
+	--surface-hover: #2a2b33;
+
+	/* Brand — Amber/Gold (Primary) */
+	--primary: #e8a848;
+	--primary-soft: rgba(232, 168, 72, 0.1);
+	--primary-mid: rgba(232, 168, 72, 0.18);
+	--primary-deep: #d4952e;
+	--primary-on: #1c1200;
+
+	/* Brand — Teal (Secondary) */
+	--secondary: #38bec9;
+	--secondary-soft: rgba(56, 190, 201, 0.1);
+	--secondary-mid: rgba(56, 190, 201, 0.18);
+
+	/* Accent Colors */
+	--accent-blue: rgba(100, 140, 220, 0.12);
+	--accent-blue-solid: #648cdc;
+	--accent-violet: rgba(140, 120, 210, 0.1);
+	--accent-violet-solid: #8c78d2;
+
+	/* Semantic Colors */
+	--success: #34c88a;
+	--success-soft: rgba(52, 200, 138, 0.1);
+	--warning: #e8a848;
+	--warning-soft: rgba(232, 168, 72, 0.1);
+	--danger: #e05252;
+	--danger-soft: rgba(224, 82, 82, 0.1);
+	--info: #648cdc;
+	--info-soft: rgba(100, 140, 220, 0.1);
+
+	/* Text — high contrast for readability */
+	--white: #ecedf0;
+	--text: #d8dae0;
+	--text-mid: #888c9e;
+	--text-light: #555868;
+
+	/* Borders */
+	--border: rgba(255, 255, 255, 0.08);
+	--border-hover: rgba(255, 255, 255, 0.14);
+	--border-focus: rgba(232, 168, 72, 0.45);
+
+	/* Typography */
+	--display: 'Space Grotesk', 'Inter', sans-serif;
+	--body: 'Geist', -apple-system, 'Segoe UI', sans-serif;
+	--mono: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+
+	/* Border Radii — refined, not bubbly */
+	--radius-xs: 4px;
+	--radius-sm: 6px;
+	--radius-md: 8px;
+	--radius-lg: 10px;
+	--radius-xl: 12px;
+	--radius-pill: 100px;
+
+	/* Shadows */
+	--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.24), 0 1px 3px rgba(0, 0, 0, 0.18);
+	--shadow-md: 0 4px 14px rgba(0, 0, 0, 0.28), 0 1px 4px rgba(0, 0, 0, 0.18);
+	--shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.32), 0 4px 10px rgba(0, 0, 0, 0.2);
+	--shadow-xl: 0 20px 56px rgba(0, 0, 0, 0.4), 0 6px 16px rgba(0, 0, 0, 0.22);
+
+	/* Easing */
+	--ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+	--ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+
+	/* Transitions */
+	--transition-fast: 0.15s ease;
+	--transition-base: 0.2s ease;
+	--transition-spring: 0.25s var(--ease-spring);
+
+	/* Spacing Scale (base: 4px) */
+	--space-0_5: 2px;
+	--space-1: 4px;
+	--space-1_5: 6px;
+	--space-2: 8px;
+	--space-2_5: 10px;
+	--space-3: 12px;
+	--space-3_5: 14px;
+	--space-4: 16px;
+	--space-5: 20px;
+	--space-6: 24px;
+	--space-7: 28px;
+	--space-8: 32px;
+	--space-9: 36px;
+	--space-10: 40px;
+	--space-12: 48px;
+	--space-14: 56px;
+	--space-16: 64px;
+	--space-18: 72px;
+	--space-20: 80px;
+
+	/* Font Size Scale */
+	--text-nano: 10px;
+	--text-micro: 11px;
+	--text-xs: 12px;
+	--text-caption: 13px;
+	--text-sm: 14px;
+	--text-base: 15px;
+	--text-md: 16px;
+	--text-lg: 18px;
+	--text-xl: 20px;
+	--text-2xl: 22px;
+	--text-3xl: 24px;
+	--text-4xl: 28px;
+	--text-5xl: 44px;
+	--text-display-sm: clamp(28px, 3vw, 36px);
+	--text-display-md: clamp(32px, 4vw, 44px);
+	--text-display-lg: clamp(40px, 5vw, 58px);
+
+	/* Font Weight Scale */
+	--weight-regular: 400;
+	--weight-medium: 500;
+	--weight-semibold: 600;
+	--weight-bold: 700;
+	--weight-extrabold: 800;
+
+	/* Line Height Scale — optimized for readability */
+	--leading-none: 1;
+	--leading-tight: 1.1;
+	--leading-snug: 1.2;
+	--leading-heading: 1.25;
+	--leading-compact: 1.4;
+	--leading-normal: 1.5;
+	--leading-relaxed: 1.6;
+	--leading-body: 1.7;
+	--leading-loose: 1.8;
+
+	/* Letter Spacing Scale */
+	--tracking-tight: -0.5px;
+	--tracking-snug: -0.25px;
+	--tracking-normal: 0;
+	--tracking-wide: 0.3px;
+	--tracking-wider: 0.6px;
+	--tracking-widest: 1px;
+
+	/* Z-Index Scale */
+	--z-base: 0;
+	--z-raised: 1;
+	--z-header: 40;
+	--z-overlay: 45;
+	--z-sidebar: 50;
+	--z-sticky: 100;
+	--z-splash: 9999;
+
+	/* Container Width Scale */
+	--width-sidebar: 240px;
+	--width-xs: 320px;
+	--width-sm: 420px;
+	--width-form: 440px;
+	--width-md: 480px;
+	--width-prose: 640px;
+	--width-lg: 820px;
+	--width-xl: 1140px;
+	--width-max: 1200px;
+}
+
+/* ===== Animations ===== */
+
+@keyframes slideUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes popIn {
+	from {
+		opacity: 0;
+		transform: scale(0.95) translateY(6px);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1) translateY(0);
+	}
+}
+
+@keyframes floatIn {
+	from {
+		opacity: 0;
+		transform: translateY(28px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes shimmer {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}
+
+/* ===== Base Reset ===== */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	font-family: var(--body);
+	font-size: var(--text-base);
+	font-weight: var(--weight-regular);
+	line-height: var(--leading-body);
+	color: var(--text);
+	background-color: var(--bg);
+	min-height: 100dvh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--display);
+	color: var(--white);
+	line-height: var(--leading-heading);
+	font-weight: var(--weight-bold);
+}
+
+a {
+	color: var(--primary);
+	text-decoration: none;
+	transition: color var(--transition-fast);
+}
+
+a:hover {
+	color: var(--primary-deep);
+}
+
+button {
+	font-family: var(--body);
+	cursor: pointer;
+	border: none;
+	background: none;
+}
+
+input,
+textarea,
+select {
+	font-family: var(--body);
+}

@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Starter — Smart Todos with AI-Enhanced Descriptions</title>
+<meta name="description" content="A SaaS starter template with authentication, billing, and AI-powered todo management. Write better task descriptions with one click.">
+<meta name="author" content="AI Starter">
+<meta name="theme-color" content="#0f1115">
+<link rel="canonical" href="https://example.com/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="AI Starter — Smart Todos with AI-Enhanced Descriptions">
+<meta property="og:description" content="A SaaS starter template with authentication, billing, and AI-powered todo management. Write better task descriptions with one click.">
+<meta property="og:url" content="https://example.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AI Starter">
+<meta property="og:image" content="https://example.com/assets/logo.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta property="og:image:alt" content="AI Starter logo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Starter — Smart Todos with AI-Enhanced Descriptions">
+<meta name="twitter:description" content="A SaaS starter template with authentication, billing, and AI-powered todo management. Write better task descriptions with one click.">
+<meta name="twitter:image" content="https://example.com/assets/logo.png">
+<meta name="twitter:image:alt" content="AI Starter logo">
+<link rel="icon" href="/assets/favicon/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/favicon/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/favicon/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png">
+<link rel="manifest" href="/assets/favicon/site.webmanifest">
+<link rel="preload" href="/assets/logo_no_bg.png" as="image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "AI Starter",
+  "url": "https://example.com",
+  "description": "SaaS starter template with authentication, billing, and AI-powered todo management.",
+  "applicationCategory": "ProductivityApplication",
+  "operatingSystem": "Web",
+  "offers": [
+    {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "name": "Free"
+    },
+    {
+      "@type": "Offer",
+      "name": "Starter",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": "19",
+        "priceCurrency": "USD",
+        "unitText": "month"
+      }
+    }
+  ],
+  "image": "https://example.com/assets/logo.png"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "AI Starter",
+  "url": "https://example.com",
+  "logo": "https://example.com/assets/logo.png",
+  "description": "SaaS starter template with AI-powered todo management"
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/shared.css">
+<style>
+  /* Subtle radial ambient light behind hero */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(232, 168, 72, 0.06) 0%, rgba(56, 190, 201, 0.03) 40%, transparent 70%);
+    pointer-events: none;
+    z-index: var(--z-base);
+  }
+
+  /* ============================================= */
+  /* HERO                                          */
+  /* ============================================= */
+  .hero {
+    padding: var(--space-18) 0 var(--space-12);
+  }
+
+  .hero-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-16);
+    align-items: center;
+  }
+
+  .hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: var(--primary-soft);
+    color: var(--primary);
+    padding: var(--space-1_5) var(--space-1_5) var(--space-1_5) var(--space-4);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    margin-bottom: var(--space-6);
+    border: 1px solid var(--primary-mid);
+    opacity: 0;
+    animation: popIn 0.5s 0.1s var(--ease-spring) forwards;
+  }
+
+  .hero-pill .pill-tag {
+    background: var(--primary);
+    color: var(--primary-on);
+    font-size: var(--text-micro);
+    font-weight: var(--weight-bold);
+    padding: var(--space-1) var(--space-2_5);
+    border-radius: var(--radius-pill);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .hero h1 {
+    font-family: var(--display);
+    font-size: var(--text-display-lg);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-tight);
+    color: var(--white);
+    margin-bottom: var(--space-5);
+    letter-spacing: var(--tracking-snug);
+    opacity: 0;
+    animation: slideUp 0.6s 0.2s var(--ease-smooth) forwards;
+  }
+
+  .hero h1 .accent {
+    color: var(--primary);
+    position: relative;
+  }
+
+  .hero h1 .accent::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--primary);
+    opacity: 0.25;
+    border-radius: var(--radius-xs);
+  }
+
+  .hero-desc {
+    font-size: var(--text-md);
+    color: var(--text-mid);
+    max-width: var(--width-md);
+    margin-bottom: var(--space-9);
+    line-height: var(--leading-loose);
+    opacity: 0;
+    animation: slideUp 0.6s 0.35s var(--ease-smooth) forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    opacity: 0;
+    animation: slideUp 0.6s 0.5s var(--ease-smooth) forwards;
+  }
+
+  .hero-trust {
+    margin-top: var(--space-5);
+    display: flex;
+    gap: var(--space-5);
+    opacity: 0;
+    animation: slideUp 0.6s 0.65s var(--ease-smooth) forwards;
+  }
+
+  .hero-trust-item {
+    font-size: var(--text-caption);
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: var(--space-1_5);
+  }
+
+  .hero-trust-item svg {
+    flex-shrink: 0;
+  }
+
+  /* ============================================= */
+  /* TODO APP MOCKUP CARD                          */
+  /* ============================================= */
+  .todo-card {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    padding: 0;
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    opacity: 0;
+    animation: floatIn 0.8s 0.4s var(--ease-smooth) forwards;
+    border: 1px solid var(--border);
+  }
+
+  .todo-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-5);
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .todo-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .todo-topbar-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+  }
+
+  .todo-topbar-label {
+    font-size: var(--text-micro);
+    font-weight: var(--weight-semibold);
+    color: var(--text-mid);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .todo-topbar-count {
+    font-size: var(--text-micro);
+    font-weight: var(--weight-medium);
+    color: var(--text-light);
+  }
+
+  .todo-body {
+    padding: var(--space-5);
+  }
+
+  .todo-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-3);
+    border-radius: var(--radius-sm);
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    margin-bottom: var(--space-2);
+  }
+
+  .todo-checkbox {
+    width: 18px;
+    height: 18px;
+    border-radius: var(--radius-xs);
+    border: 2px solid var(--border-hover);
+    flex-shrink: 0;
+    margin-top: var(--space-0_5);
+  }
+
+  .todo-checkbox.checked {
+    background: var(--secondary);
+    border-color: var(--secondary);
+    position: relative;
+  }
+
+  .todo-checkbox.checked::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 4px;
+    height: 8px;
+    border: solid var(--bg);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .todo-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .todo-title {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--white);
+    margin-bottom: var(--space-1);
+  }
+
+  .todo-title.completed {
+    text-decoration: line-through;
+    color: var(--text-light);
+  }
+
+  .todo-description {
+    font-size: var(--text-xs);
+    color: var(--text-mid);
+    line-height: var(--leading-relaxed);
+  }
+
+  .todo-description.completed {
+    color: var(--text-light);
+  }
+
+  .todo-enhance-badge {
+    font-size: var(--text-nano);
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    padding: var(--space-0_5) var(--space-2);
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+    background: var(--primary-soft);
+    color: var(--primary);
+    border: 1px solid var(--primary-mid);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-top: var(--space-1_5);
+  }
+
+  .todo-enhance-badge svg {
+    width: 10px;
+    height: 10px;
+    stroke: var(--primary);
+    fill: none;
+    stroke-width: 2.5;
+  }
+
+  .todo-divider {
+    height: 1px;
+    background: var(--border);
+    margin: var(--space-3) 0;
+  }
+
+  .todo-add-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2_5) var(--space-3);
+    border-radius: var(--radius-sm);
+    border: 1px dashed var(--border-hover);
+    color: var(--text-light);
+    font-size: var(--text-sm);
+    cursor: default;
+  }
+
+  .todo-add-row svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--text-light);
+    fill: none;
+    stroke-width: 2;
+  }
+
+  /* ============================================= */
+  /* TECH STACK BAR                                */
+  /* ============================================= */
+  .tech-stack {
+    padding: var(--space-12) 0;
+    text-align: center;
+  }
+
+  .tech-stack p {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
+    margin-bottom: var(--space-7);
+  }
+
+  .tech-stack-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-10);
+    flex-wrap: wrap;
+    opacity: 0.3;
+  }
+
+  .tech-stack-row span {
+    font-family: var(--display);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-bold);
+    color: var(--text-mid);
+  }
+
+  /* ============================================= */
+  /* PROBLEM SECTION                               */
+  /* ============================================= */
+  .problem {
+    padding: var(--space-20) 0;
+  }
+
+  .problem-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .problem-header h2 {
+    font-family: var(--display);
+    font-size: var(--text-display-md);
+    font-weight: var(--weight-bold);
+    color: var(--white);
+    margin-bottom: var(--space-3);
+    letter-spacing: var(--tracking-snug);
+  }
+
+  .problem-header p {
+    font-size: var(--text-md);
+    color: var(--text-mid);
+    max-width: var(--width-prose);
+    margin: 0 auto;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+    max-width: var(--width-lg);
+    margin: 0 auto;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8) var(--space-6);
+    text-align: center;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s var(--ease-spring);
+  }
+
+  .stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-hover);
+  }
+
+  .stat-number {
+    font-family: var(--display);
+    font-size: var(--text-5xl);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-tight);
+    margin-bottom: var(--space-2);
+  }
+
+  .stat-card:nth-child(1) .stat-number { color: var(--danger); }
+  .stat-card:nth-child(2) .stat-number { color: var(--text-light); }
+  .stat-card:nth-child(3) .stat-number { color: var(--primary); }
+
+  .stat-label {
+    font-size: var(--text-sm);
+    color: var(--text-mid);
+    font-weight: var(--weight-medium);
+  }
+
+  .stat-sublabel {
+    font-size: var(--text-xs);
+    color: var(--text-light);
+    margin-top: var(--space-1);
+  }
+
+  /* ============================================= */
+  /* BENTO FEATURES                                */
+  /* ============================================= */
+  .features {
+    padding: var(--space-20) 0;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--space-14);
+  }
+
+  .section-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1_5);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--secondary);
+    background: var(--secondary-soft);
+    padding: var(--space-1_5) var(--space-4);
+    border-radius: var(--radius-pill);
+    margin-bottom: var(--space-4);
+    border: 1px solid var(--secondary-mid);
+  }
+
+  .section-pill svg {
+    width: 14px;
+    height: 14px;
+    stroke: none;
+    fill: var(--secondary);
+  }
+
+  .section-header h2 {
+    font-family: var(--display);
+    font-size: var(--text-display-md);
+    font-weight: var(--weight-bold);
+    color: var(--white);
+    margin-bottom: var(--space-3);
+    letter-spacing: var(--tracking-snug);
+  }
+
+  .section-header p {
+    font-size: var(--text-md);
+    color: var(--text-mid);
+    max-width: var(--width-md);
+    margin: 0 auto;
+  }
+
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: var(--space-4);
+  }
+
+  .bento-card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8) var(--space-6);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s var(--ease-spring);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bento-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, rgba(232, 168, 72, 0.03) 0%, rgba(56, 190, 201, 0.02) 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .bento-card:hover::before { opacity: 1; }
+
+  .bento-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-hover);
+  }
+
+  .bento-card.wide {
+    grid-column: span 2;
+  }
+
+  .bento-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-5);
+  }
+
+  .bento-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .bento-icon.primary svg { stroke: var(--primary); }
+  .bento-icon.secondary svg { stroke: var(--secondary); }
+  .bento-icon.violet svg { stroke: var(--accent-violet-solid); }
+  .bento-icon.blue svg { stroke: var(--accent-blue-solid); }
+
+  .bento-icon.primary { background: var(--primary-soft); border: 1px solid rgba(232, 168, 72, 0.12); }
+  .bento-icon.secondary { background: var(--secondary-soft); border: 1px solid var(--secondary-mid); }
+  .bento-icon.violet { background: var(--accent-violet); border: 1px solid var(--accent-violet); }
+  .bento-icon.blue { background: var(--accent-blue); border: 1px solid var(--accent-blue); }
+
+  .bento-card h3 {
+    font-family: var(--display);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-semibold);
+    color: var(--white);
+    margin-bottom: var(--space-2);
+  }
+
+  .bento-card p {
+    font-size: var(--text-sm);
+    color: var(--text-mid);
+    line-height: var(--leading-loose);
+  }
+
+  .bento-mini-ui {
+    margin-top: var(--space-5);
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .mini-tag {
+    font-size: var(--text-micro);
+    font-weight: var(--weight-semibold);
+    padding: var(--space-1_5) var(--space-3);
+    border-radius: var(--radius-pill);
+    background: var(--surface-raised);
+    color: var(--text-light);
+    border: 1px solid var(--border);
+  }
+
+  .mini-tag.active {
+    background: var(--primary-soft);
+    color: var(--primary);
+    border-color: var(--primary-mid);
+  }
+
+  /* ============================================= */
+  /* AI ENHANCEMENT DEMO                           */
+  /* ============================================= */
+  .demo {
+    padding: var(--space-20) 0;
+  }
+
+  .demo-card {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--primary-mid);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    max-width: var(--width-lg);
+    margin: 0 auto;
+  }
+
+  .demo-header {
+    padding: var(--space-6) var(--space-7);
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .demo-title {
+    font-family: var(--display);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-bold);
+    color: var(--white);
+    margin-bottom: var(--space-1);
+  }
+
+  .demo-meta {
+    font-size: var(--text-xs);
+    color: var(--text-light);
+  }
+
+  .demo-body {
+    padding: var(--space-6) var(--space-7);
+  }
+
+  .demo-section-title {
+    font-size: var(--text-micro);
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .demo-section-title.before { color: var(--text-light); }
+  .demo-section-title.after { color: var(--primary); }
+
+  .demo-text-block {
+    padding: var(--space-5);
+    border-radius: var(--radius-md);
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    margin-bottom: var(--space-4);
+  }
+
+  .demo-text-block p {
+    font-size: var(--text-sm);
+    line-height: var(--leading-body);
+  }
+
+  .demo-text-block.before p {
+    color: var(--text-light);
+  }
+
+  .demo-text-block.after {
+    border-color: var(--primary-mid);
+  }
+
+  .demo-text-block.after p {
+    color: var(--text);
+  }
+
+  .demo-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-4) 0;
+    color: var(--primary);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+  }
+
+  .demo-arrow svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--primary);
+    fill: none;
+    stroke-width: 2;
+  }
+
+  .demo-divider {
+    height: 1px;
+    background: var(--border);
+    margin: var(--space-6) 0;
+  }
+
+  .demo-cta {
+    text-align: center;
+    padding: var(--space-6) 0 var(--space-2);
+  }
+
+  .demo-cta p {
+    font-size: var(--text-sm);
+    color: var(--text-light);
+    margin-bottom: var(--space-4);
+  }
+
+  /* ============================================= */
+  /* HOW IT WORKS                                  */
+  /* ============================================= */
+  .how {
+    padding: var(--space-20) 0;
+  }
+
+  .how-content {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-16) var(--space-14);
+    color: white;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .how-content::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232, 168, 72, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .how-content::after {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: -80px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(56, 190, 201, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .how-header {
+    text-align: center;
+    margin-bottom: var(--space-14);
+    position: relative;
+    z-index: var(--z-raised);
+  }
+
+  .how-header .section-pill {
+    background: var(--secondary-soft);
+    color: var(--secondary);
+    border-color: var(--secondary-mid);
+  }
+
+  .how-header h2 {
+    font-family: var(--display);
+    font-size: var(--text-display-md);
+    font-weight: var(--weight-bold);
+    color: var(--white);
+    margin-bottom: var(--space-2);
+  }
+
+  .how-header p {
+    color: var(--text-mid);
+    font-size: var(--text-md);
+  }
+
+  .how-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    position: relative;
+    z-index: var(--z-raised);
+  }
+
+  .how-step {
+    text-align: center;
+    padding: var(--space-8) var(--space-5);
+    border-radius: var(--radius-lg);
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+
+  .how-step:hover {
+    background: var(--surface-hover);
+    transform: translateY(-4px);
+    border-color: var(--border-hover);
+  }
+
+  .step-num {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--space-5);
+    font-family: var(--display);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    color: var(--primary-on);
+    box-shadow: var(--shadow-md);
+  }
+
+  .how-step h3 {
+    font-family: var(--display);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-semibold);
+    margin-bottom: var(--space-2);
+    color: var(--white);
+  }
+
+  .how-step p {
+    font-size: var(--text-sm);
+    color: var(--text-mid);
+    line-height: var(--leading-body);
+  }
+
+  .how-step .step-detail {
+    display: block;
+    margin-top: var(--space-3);
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: var(--text-light);
+  }
+
+  /* ============================================= */
+  /* PRICING                                       */
+  /* ============================================= */
+  .pricing {
+    padding: var(--space-20) 0;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+    max-width: var(--width-xl);
+    margin: 0 auto;
+  }
+
+  .price-card {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-10) var(--space-9);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .price-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+    border-color: var(--border-hover);
+  }
+
+  .price-card.featured {
+    border-color: var(--primary-mid);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .price-card.featured::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-xl);
+    background: linear-gradient(180deg, rgba(232, 168, 72, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .price-card.featured:hover {
+    box-shadow: var(--shadow-xl);
+  }
+
+  .price-popular {
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary);
+    color: var(--primary-on);
+    font-size: var(--text-micro);
+    font-weight: var(--weight-bold);
+    padding: var(--space-1_5) var(--space-4) var(--space-1_5) var(--space-5);
+    border-radius: var(--radius-pill);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .price-name {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    color: var(--text-light);
+    margin-bottom: var(--space-3);
+  }
+
+  .price-amount {
+    font-family: var(--display);
+    font-size: var(--text-5xl);
+    font-weight: var(--weight-bold);
+    color: var(--white);
+    line-height: var(--leading-tight);
+    margin-bottom: var(--space-1);
+  }
+
+  .price-amount span {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-medium);
+    color: var(--text-light);
+  }
+
+  .price-desc {
+    font-size: var(--text-sm);
+    color: var(--text-mid);
+    margin-bottom: var(--space-7);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .price-list {
+    list-style: none;
+    margin-bottom: var(--space-8);
+    flex: 1;
+  }
+
+  .price-list li {
+    font-size: var(--text-sm);
+    padding: var(--space-2) 0;
+    color: var(--text-mid);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2_5);
+  }
+
+  .price-check {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--secondary-soft);
+    color: var(--secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid var(--secondary-mid);
+  }
+
+  .price-check svg {
+    width: 11px;
+    height: 11px;
+    stroke: var(--secondary);
+    stroke-width: 3;
+    fill: none;
+  }
+
+  .price-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: var(--space-3_5);
+    border-radius: var(--radius-sm);
+    font-family: var(--body);
+    font-size: var(--text-base);
+    font-weight: var(--weight-medium);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.25s var(--ease-spring);
+    border: 1px solid var(--border-hover);
+    background: var(--surface-raised);
+    color: var(--white);
+  }
+
+  .price-btn:hover {
+    border-color: var(--border-hover);
+    background: var(--surface-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .price-card.featured .price-btn {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--primary-on);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .price-card.featured .price-btn:hover {
+    background: var(--primary-deep);
+    border-color: var(--primary-deep);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* ============================================= */
+  /* FINAL CTA                                     */
+  /* ============================================= */
+  .final-cta {
+    padding: var(--space-12) 0 var(--space-20);
+  }
+
+  .cta-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-18) var(--space-14);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .cta-box::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(232, 168, 72, 0.08) 0%, rgba(56, 190, 201, 0.04) 50%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-box h2 {
+    font-family: var(--display);
+    font-size: var(--text-display-md);
+    font-weight: var(--weight-bold);
+    color: var(--white);
+    margin-bottom: var(--space-4);
+    position: relative;
+    z-index: var(--z-raised);
+  }
+
+  .cta-box p {
+    color: var(--text-mid);
+    font-size: var(--text-md);
+    margin-bottom: var(--space-9);
+    position: relative;
+    z-index: var(--z-raised);
+  }
+
+  .cta-box .btn-primary {
+    position: relative;
+    z-index: var(--z-raised);
+    font-size: var(--text-md);
+    padding: var(--space-4) var(--space-10);
+  }
+
+  /* ============================================= */
+  /* RESPONSIVE                                    */
+  /* ============================================= */
+  @media (max-width: 900px) {
+    .hero-layout { grid-template-columns: 1fr; gap: var(--space-10); }
+    .hero-trust { flex-direction: column; gap: var(--space-2); }
+    .stat-grid { grid-template-columns: 1fr; }
+    .bento { grid-template-columns: 1fr; }
+    .bento-card.wide { grid-column: span 1; }
+    .how-steps { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .how-content { padding: var(--space-12) var(--space-7); }
+    .cta-box { padding: var(--space-12) var(--space-7); }
+    .demo-body { padding: var(--space-4) var(--space-5); }
+    .demo-header { padding: var(--space-5) var(--space-5); }
+    .tech-stack-row { gap: var(--space-6); }
+  }
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<!-- NAV -->
+<header>
+<nav aria-label="Main navigation">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="/" class="logo" aria-label="AI Starter home">
+        <div class="logo-icon"><img src="/assets/logo_no_bg.png" alt="AI Starter logo" width="32" height="32"></div>
+        <span><span class="logo-accent">AI</span> Starter</span>
+      </a>
+      <ul class="nav-center">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="https://app.example.com/auth/login" class="nav-login">Log in</a>
+        <a href="https://app.example.com/auth/signup" class="nav-cta">Get Started</a>
+      </div>
+    </div>
+  </div>
+</nav>
+</header>
+
+<main id="main-content">
+<!-- HERO -->
+<section class="section hero">
+  <div class="container">
+    <div class="hero-layout">
+      <div>
+        <div class="hero-pill">
+          AI-Powered Productivity
+          <span class="pill-tag">AI</span>
+        </div>
+        <h1>Manage your todos with <span class="accent">AI-enhanced</span> descriptions</h1>
+        <p class="hero-desc">Create todos and let AI turn vague notes into clear, actionable descriptions. A complete SaaS starter with auth, billing, and a smart todo example built in.</p>
+        <div class="hero-actions">
+          <a href="https://app.example.com/auth/signup" class="btn btn-primary">Start Free</a>
+          <a href="#demo" class="btn btn-secondary">See AI in Action</a>
+        </div>
+        <div class="hero-trust">
+          <span class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Free tier included</span>
+          <span class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> 20 AI enhancements/mo</span>
+          <span class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> No credit card required</span>
+        </div>
+      </div>
+
+      <!-- Todo App Mockup Card -->
+      <div class="todo-card">
+        <div class="todo-topbar">
+          <div class="todo-topbar-left">
+            <div class="todo-topbar-dot"></div>
+            <span class="todo-topbar-label">My Todos</span>
+          </div>
+          <span class="todo-topbar-count">3 of 5 completed</span>
+        </div>
+        <div class="todo-body">
+          <div class="todo-item">
+            <div class="todo-checkbox checked"></div>
+            <div class="todo-content">
+              <div class="todo-title completed">Set up project repository</div>
+              <div class="todo-description completed">Initialize Git repo, add README, configure CI pipeline</div>
+            </div>
+          </div>
+          <div class="todo-item">
+            <div class="todo-checkbox checked"></div>
+            <div class="todo-content">
+              <div class="todo-title completed">Design database schema</div>
+              <div class="todo-description completed">Define users, todos, and AI call log tables with Drizzle ORM</div>
+            </div>
+          </div>
+          <div class="todo-item">
+            <div class="todo-checkbox"></div>
+            <div class="todo-content">
+              <div class="todo-title">Write API integration tests</div>
+              <div class="todo-description">Cover CRUD endpoints, auth flows, and edge cases for the todo API. Ensure AI enhancement endpoint validates plan limits correctly.</div>
+              <span class="todo-enhance-badge"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg> AI Enhanced</span>
+            </div>
+          </div>
+
+          <div class="todo-divider"></div>
+
+          <div class="todo-item">
+            <div class="todo-checkbox"></div>
+            <div class="todo-content">
+              <div class="todo-title">Deploy to production</div>
+              <div class="todo-description">Push to Cloudflare Workers and configure DNS</div>
+            </div>
+          </div>
+          <div class="todo-item">
+            <div class="todo-checkbox checked"></div>
+            <div class="todo-content">
+              <div class="todo-title completed">Configure authentication</div>
+              <div class="todo-description completed">Set up Better Auth with email/password and OTP verification</div>
+            </div>
+          </div>
+
+          <div class="todo-divider"></div>
+
+          <div class="todo-add-row">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add a new todo...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK BAR -->
+<section class="section tech-stack" aria-label="Built with">
+  <div class="container">
+    <p>Built with</p>
+    <div class="tech-stack-row">
+      <span>Hono</span>
+      <span>SvelteKit</span>
+      <span>Drizzle</span>
+      <span>Better Auth</span>
+      <span>Cloudflare</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM SECTION -->
+<section class="section problem" aria-label="The problem">
+  <div class="container">
+    <div class="problem-header">
+      <h2>Your todos deserve better descriptions.</h2>
+      <p>Vague tasks lead to procrastination. AI Starter turns rough notes into clear, actionable descriptions so you always know what to do next.</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">41%</div>
+        <div class="stat-label">Of todos never get completed</div>
+        <div class="stat-sublabel">Vague descriptions cause task abandonment</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">3x</div>
+        <div class="stat-label">More likely to finish</div>
+        <div class="stat-sublabel">When tasks have clear action steps</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">1 click</div>
+        <div class="stat-label">To enhance with AI</div>
+        <div class="stat-sublabel">From rough note to actionable description</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES — BENTO GRID -->
+<section class="section features" id="features" aria-label="Features">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg> Features</div>
+      <h2>Everything you need, built in</h2>
+      <p>Authentication, billing, AI integration, and a clean architecture ready to extend.</p>
+    </div>
+
+    <div class="bento">
+      <!-- AI Enhancement (wide) -->
+      <div class="bento-card wide">
+        <div class="bento-icon primary"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg></div>
+        <h3>AI-Enhanced Descriptions</h3>
+        <p>Turn vague todo notes into clear, structured descriptions. AI analyzes your task title and generates actionable steps, context, and acceptance criteria. One click is all it takes.</p>
+        <div class="bento-mini-ui">
+          <span class="mini-tag active">Gemini</span>
+          <span class="mini-tag active">Ollama</span>
+          <span class="mini-tag">Pluggable Providers</span>
+          <span class="mini-tag">Usage Tracking</span>
+        </div>
+      </div>
+
+      <!-- Auth -->
+      <div class="bento-card">
+        <div class="bento-icon secondary"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h3>Authentication</h3>
+        <p>Email/password sign-up with OTP email verification, password reset, and session management. All powered by Better Auth.</p>
+      </div>
+
+      <!-- Clean Architecture -->
+      <div class="bento-card">
+        <div class="bento-icon secondary"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+        <h3>Clean Architecture</h3>
+        <p>Domain, use cases, DAOs, and providers cleanly separated. Swap implementations without touching business logic.</p>
+      </div>
+
+      <!-- Billing (wide) -->
+      <div class="bento-card wide">
+        <div class="bento-icon violet"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+        <h3>Billing &amp; Plan Management</h3>
+        <p>Free, Starter, and Pro tiers with enforced usage limits. Checkout, plan upgrades, billing portal, and account deletion all wired up and ready to customize for your own SaaS.</p>
+        <div class="bento-mini-ui">
+          <span class="mini-tag active">Stripe Checkout</span>
+          <span class="mini-tag active">Customer Portal</span>
+          <span class="mini-tag">Plan Limits</span>
+          <span class="mini-tag">Usage Metering</span>
+        </div>
+      </div>
+
+      <!-- Cloudflare -->
+      <div class="bento-card">
+        <div class="bento-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <h3>Edge-First Deploy</h3>
+        <p>API runs on Cloudflare Workers with near-zero cold starts. Web deploys as a static SPA. Fast everywhere, globally distributed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI ENHANCEMENT DEMO -->
+<section class="section demo" id="demo" aria-label="AI enhancement demo">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg> Demo</div>
+      <h2>See AI enhancement in action</h2>
+      <p>Write a quick note. AI turns it into a clear, actionable task.</p>
+    </div>
+
+    <div class="demo-card">
+      <div class="demo-header">
+        <div class="demo-title">AI Description Enhancement</div>
+        <div class="demo-meta">One click to transform any todo description</div>
+      </div>
+
+      <div class="demo-body">
+        <!-- Before -->
+        <div class="demo-section-title before">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Your Original Todo
+        </div>
+
+        <div class="demo-text-block before">
+          <p><strong style="color: var(--text-mid);">Title:</strong> Fix login bug</p>
+          <p style="margin-top: var(--space-2);"><strong style="color: var(--text-mid);">Description:</strong> users cant login sometimes, something about sessions</p>
+        </div>
+
+        <!-- Arrow -->
+        <div class="demo-arrow">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          AI Enhance
+        </div>
+
+        <!-- After -->
+        <div class="demo-section-title after">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg>
+          AI-Enhanced Description
+        </div>
+
+        <div class="demo-text-block after">
+          <p><strong style="color: var(--white);">Title:</strong> Fix login bug</p>
+          <p style="margin-top: var(--space-2);"><strong style="color: var(--white);">Description:</strong> Investigate intermittent login failures where user sessions are not being persisted correctly. Check the Better Auth session cookie configuration, verify the cookie domain matches between API and web origins, and review the session expiry settings. Reproduce by logging in across different browsers and checking if the session cookie is set. Fix the root cause and add an integration test to prevent regression.</p>
+        </div>
+
+        <div class="demo-divider"></div>
+
+        <div class="demo-section-title before">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Another Example
+        </div>
+
+        <div class="demo-text-block before">
+          <p><strong style="color: var(--text-mid);">Title:</strong> Add dark mode</p>
+          <p style="margin-top: var(--space-2);"><strong style="color: var(--text-mid);">Description:</strong> make the app support dark mode</p>
+        </div>
+
+        <div class="demo-arrow">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          AI Enhance
+        </div>
+
+        <div class="demo-text-block after">
+          <p><strong style="color: var(--white);">Title:</strong> Add dark mode</p>
+          <p style="margin-top: var(--space-2);"><strong style="color: var(--white);">Description:</strong> Implement a dark mode toggle for the application using CSS custom properties. Create a theme provider that persists the user's preference to localStorage and respects the system prefers-color-scheme media query. Define dark and light token sets, update all components to use semantic tokens instead of hardcoded colors, and add a toggle switch in the settings page.</p>
+        </div>
+
+        <!-- CTA -->
+        <div class="demo-cta">
+          <p>Every todo can be this clear.</p>
+          <a href="https://app.example.com/auth/signup" class="btn btn-primary">Try It Free</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how" id="how" aria-label="How it works">
+  <div class="container">
+    <div class="how-content">
+      <div class="how-header">
+        <div class="section-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg> How It Works</div>
+        <h2>Three steps to better todos</h2>
+        <p>Sign up, create a todo, and let AI do the rest.</p>
+      </div>
+      <div class="how-steps">
+        <div class="how-step">
+          <div class="step-num">1</div>
+          <h3>Sign Up</h3>
+          <p>Create your account with email and password. Verify via OTP email. Free tier starts immediately.</p>
+          <span class="step-detail">Takes ~30 seconds</span>
+        </div>
+        <div class="how-step">
+          <div class="step-num">2</div>
+          <h3>Create Todos</h3>
+          <p>Add your tasks with a title and a rough description. Don't worry about being detailed yet.</p>
+          <span class="step-detail">Quick capture</span>
+        </div>
+        <div class="how-step">
+          <div class="step-num">3</div>
+          <h3>Enhance with AI</h3>
+          <p>Click "AI Enhance" and watch your vague notes transform into clear, actionable descriptions.</p>
+          <span class="step-detail">One click, instant</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section pricing" id="pricing" aria-label="Pricing">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg> Pricing</div>
+      <h2>Simple, honest pricing</h2>
+      <p>Start free with 20 AI enhancements per month. Upgrade when you need more.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Free</div>
+        <div class="price-amount">$0</div>
+        <div class="price-desc">Get started with AI-enhanced todos at no cost.</div>
+        <ul class="price-list">
+          <li><span class="price-check"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> Unlimited todos</li>
+          <li><span class="price-check"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> 20 AI enhancements / month</li>
+          <li><span class="price-check"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> Email/password auth</li>
+          <li><span class="price-check"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> Full CRUD operations</li>
+        </ul>
+        <a href="https://app.example.com/auth/signup" class="price-btn">Get Started Free</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-popular">Recommended</div>
+        <div class="price-name">Starter</div>
+        <div class="price-amount">$19<span>/mo</span></div>
+        <div class="price-desc">For power users who rely on AI to stay productive.</div>
+        <ul class="price-list">
+          <li><span class="price-check"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> Unlimited todos</li>
+          <li><span class="price-check"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> 200 AI enhancements / month</li>
+          <li><span class="price-check"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> Priority AI processing</li>
+          <li><span class="price-check"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> Email support</li>
+        </ul>
+        <a href="https://app.example.com/auth/signup?plan=starter" class="price-btn">Start Free Trial</a>
+      </div>
+      <div class="price-card">
+        <div class="price-name">Pro</div>
+        <div class="price-amount">$49<span>/mo</span></div>
+        <div class="price-desc">For teams and heavy users who need maximum AI capacity.</div>
+        <ul class="price-list">
+          <li><span class="price-check"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> Unlimited todos</li>
+          <li><span class="price-check"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> 1,000 AI enhancements / month</li>
+          <li><span class="price-check"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> Priority AI processing</li>
+          <li><span class="price-check"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> Priority support</li>
+        </ul>
+        <a href="https://app.example.com/auth/signup?plan=pro" class="price-btn">Start Free Trial</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section final-cta" aria-label="Call to action">
+  <div class="container">
+    <div class="cta-box">
+      <h2>Stop writing vague todos. Start shipping.</h2>
+      <p>Let AI turn your rough notes into clear tasks. Free to start, no credit card required.</p>
+      <a href="https://app.example.com/auth/signup" class="btn btn-primary">Get Started Free</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <p>&copy; 2026 AI Starter. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const header = document.querySelector('header');
+  const onScroll = () => {
+    if (window.scrollY > 20) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
+</body>
+</html>
