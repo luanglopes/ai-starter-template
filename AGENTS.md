@@ -27,7 +27,7 @@ This file defines rules for AI agents working in this repository. It should cont
 - Do not create barrel files unless explicitly requested.
 - Keep comments brief and only where they improve clarity.
 - Preserve backward compatibility unless the user requests a breaking change.
-- After every implementation cycle run a code review agent
+- After every implementation cycle run a code review agent for the changed files
 
 ## Safety and Git Hygiene
 
